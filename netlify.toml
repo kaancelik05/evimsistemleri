@@ -1,0 +1,44 @@
+# Netlify ve Next.js için temel ve en güvenilir yapılandırma
+[build]
+  command = "next build"
+  publish = ".next"
+
+# Lokal geliştirme için Netlify Dev ayarları
+[dev]
+  command = "next dev"    # Framework'ün geliştirme sunucusunu başlatan komut
+  port = 8888             # Netlify'ın ana sunucusunun çalışacağı port
+  targetPort = 3000       # Next.js sunucusunun çalışacağı port
+
+[build.environment]
+  NODE_VERSION = "18"
+  # Supabase environment variables. Netlify UI'da ayarlandığından emin olun.
+  NEXT_PUBLIC_SUPABASE_URL = "https://fmfwhsmlfselwfxbivux.supabase.co"
+  NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtZndoc21sZnNlbHdmeGJpdnV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyNTI2ODQsImV4cCI6MjA2NTgyODY4NH0.nRS6hcUZI683sSngTqA10M1AxL8gVvW_oIS-hFezLY0"
+
+# Netlify'ın resmi Next.js eklentisi.
+# Bu eklenti API rotaları dahil tüm yönlendirmeleri otomatik olarak halleder.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Netlify Functions configuration
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "nft"
+
+# Manual redirects for functions
+[[redirects]]
+  from = "/api/calculations"
+  to = "/.netlify/functions/calculations"
+  status = 200
+
+# Catch-all for Next.js
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Gerekli değil, ancak bir fallback olarak yönlendirme eklenebilir.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 

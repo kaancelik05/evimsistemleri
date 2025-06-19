@@ -1,0 +1,18 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/blog/new/page": "app/admin/blog/new/page.js",
+  "/admin/blog/page": "app/admin/blog/page.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/api/calculations/route": "app/api/calculations/route.js",
+  "/api/test-route/route": "app/api/test-route/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
+  "/test-supabase/page": "app/test-supabase/page.js",
+  "/page": "app/page.js",
+  "/ev-finansmani/page": "app/ev-finansmani/page.js",
+  "/araba-finansmani/page": "app/araba-finansmani/page.js",
+  "/hakkimizda/page": "app/hakkimizda/page.js",
+  "/iletisim/page": "app/iletisim/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/blog/page": "app/blog/page.js"
+}

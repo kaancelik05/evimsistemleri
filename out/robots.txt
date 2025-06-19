@@ -1,0 +1,20 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /test-supabase
+
+User-Agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /test-supabase
+
+User-Agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /test-supabase
+
+Host: https://evimsistemler.com
+Sitemap: https://evimsistemler.com/sitemap.xml

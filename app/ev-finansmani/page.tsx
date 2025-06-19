@@ -1,0 +1,117 @@
+'use client'
+
+import { useState } from 'react'
+import { CalculationForm } from '@/components/calculation/calculation-form'
+import { PaymentScheduleTable } from '@/components/calculation/payment-schedule-table'
+import { FormData } from '@/lib/types'
+import { calculatePaymentPlan } from '@/lib/calculations'
+import { CalculationResult } from '@/lib/types'
+import { Home, TrendingUp, Shield } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+
+export default function EvFinansmanPage() {
+  const [result, setResult] = useState<CalculationResult | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleCalculate = async (data: FormData) => {
+    setLoading(true)
+    try {
+      // Simüle edilmiş gecikme
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      const calculationResult = calculatePaymentPlan({
+        ...data,
+        calculationType: 'ev'
+      })
+      
+      setResult(calculationResult)
+    } catch (error) {
+      console.error('Hesaplama hatası:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <Home className="h-16 w-16 mx-auto mb-4 text-blue-200" />
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Ev Finansmanı Hesaplayıcı
+            </h1>
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+              Hayalinizdeki eve kavuşmanın en kolay yolu. Faizsiz finansman sistemi ile ödeme planınızı hemen hesaplayın. 
+              Peşinatlı ve peşinatsız seçenekler mevcut.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Özellikler */}
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <Card>
+              <CardContent className="p-6 text-center">
+                <Shield className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Güvenli Sistem</h3>
+                <p className="text-gray-600">Şeffaf ve güvenilir ev finansmanı çözümleri</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6 text-center">
+                <TrendingUp className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Esnek Ödeme</h3>
+                <p className="text-gray-600">Size uygun aylık taksit seçenekleri</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-6 text-center">
+                <Home className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">Hızlı Süreç</h3>
+                <p className="text-gray-600">Kolay başvuru ve hızlı onay süreci</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Hesaplama Formu */}
+            <div>
+              <CalculationForm
+                calculationType="ev"
+                onCalculate={handleCalculate}
+                loading={loading}
+              />
+            </div>
+
+            {/* Sonuç Tablosu */}
+            <div>
+              {result ? (
+                <PaymentScheduleTable
+                  result={result}
+                  calculationType="ev"
+                  financingType={result.schedule[0]?.status === 'accessible' ? 'cekilissiz' : 'cekilisli'}
+                />
+              ) : (
+                <Card className="h-full flex items-center justify-center">
+                  <CardContent className="text-center py-12">
+                    <Home className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      Ödeme Planınızı Görün
+                    </h3>
+                    <p className="text-gray-600">
+                      Soldaki formu doldurarak detaylı ödeme planınızı hesaplayın
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
