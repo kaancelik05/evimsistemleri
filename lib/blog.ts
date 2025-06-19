@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { supabase, isSupabaseConfigured } from './supabase'
 
 export interface BlogPost {
   id: string
@@ -62,35 +62,43 @@ export async function getBlogPosts(filters: BlogFilters = {}): Promise<{
   posts: BlogPost[]
   total: number
 }> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, returning empty blog posts')
+    return { posts: [], total: 0 }
+  }
+
   try {
-    // Check if Supabase is properly configured
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!supabaseUrl || 
-        !supabaseAnonKey || 
-        supabaseUrl === 'https://your-project-id.supabase.co' ||
-        supabaseAnonKey === 'your-anon-key-here') {
-      console.warn('Supabase not configured, returning empty blog posts')
-      return { posts: [], total: 0 }
-    }
-
     let query = supabase
       .from('blog_posts')
-      .select(`
+      .select(
+        `
         *,
         category:blog_categories(id, name, slug, icon)
-      `)
+      `,
+        { count: 'exact' }
+      )
       .eq('published', true)
       .order('created_at', { ascending: false })
 
     // Filtreler uygula
     if (filters.category && filters.category !== 'Tümü') {
-      query = query.eq('category.slug', filters.category)
+      const { data: categoryData, error: categoryError } = await supabase
+        .from('blog_categories')
+        .select('id')
+        .eq('slug', filters.category)
+        .single()
+
+      if (categoryError) {
+        console.error('Category fetch error:', categoryError)
+      } else if (categoryData) {
+        query = query.eq('category_id', categoryData.id)
+      }
     }
 
     if (filters.search) {
-      query = query.or(`title.ilike.%${filters.search}%,excerpt.ilike.%${filters.search}%,tags.cs.{${filters.search}}`)
+      query = query.or(
+        `title.ilike.%${filters.search}%,excerpt.ilike.%${filters.search}%,tags.cs.{${filters.search}}`
+      )
     }
 
     if (filters.featured !== undefined) {
@@ -103,7 +111,10 @@ export async function getBlogPosts(filters: BlogFilters = {}): Promise<{
     }
 
     if (filters.offset) {
-      query = query.range(filters.offset, filters.offset + (filters.limit || 10) - 1)
+      query = query.range(
+        filters.offset,
+        filters.offset + (filters.limit || 10) - 1
+      )
     }
 
     const { data, error, count } = await query
@@ -114,8 +125,8 @@ export async function getBlogPosts(filters: BlogFilters = {}): Promise<{
     }
 
     return {
-      posts: data || [],
-      total: count || 0
+      posts: (data as BlogPost[]) || [],
+      total: count || 0,
     }
   } catch (error) {
     console.error('Blog posts fetch error:', error)
@@ -125,35 +136,33 @@ export async function getBlogPosts(filters: BlogFilters = {}): Promise<{
 
 // Tek blog yazısı getir
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, returning null for blog post')
+    return null
+  }
+
   try {
-    // Check if Supabase is properly configured
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!supabaseUrl || 
-        !supabaseAnonKey || 
-        supabaseUrl === 'https://your-project-id.supabase.co' ||
-        supabaseAnonKey === 'your-anon-key-here') {
-      console.warn('Supabase not configured, returning null for blog post')
-      return null
-    }
-
     const { data, error } = await supabase
       .from('blog_posts')
-      .select(`
+      .select(
+        `
         *,
         category:blog_categories(id, name, slug, icon)
-      `)
+      `
+      )
       .eq('slug', slug)
       .eq('published', true)
       .single()
 
     if (error) {
-      console.error('Blog post fetch error:', error)
+      // Slug bulunamadığında oluşan 'PGRST116' hatasını yoksay
+      if (error.code !== 'PGRST116') {
+        console.error('Blog post fetch error:', error)
+      }
       return null
     }
 
-    return data
+    return data as BlogPost
   } catch (error) {
     console.error('Blog post fetch error:', error)
     return null
@@ -162,19 +171,12 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 
 // Blog kategorilerini getir
 export async function getBlogCategories(): Promise<BlogCategory[]> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, returning empty categories')
+    return []
+  }
+
   try {
-    // Check if Supabase is properly configured
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!supabaseUrl || 
-        !supabaseAnonKey || 
-        supabaseUrl === 'https://your-project-id.supabase.co' ||
-        supabaseAnonKey === 'your-anon-key-here') {
-      console.warn('Supabase not configured, returning empty categories')
-      return []
-    }
-
     const { data, error } = await supabase
       .from('blog_categories')
       .select('*')
@@ -193,26 +195,25 @@ export async function getBlogCategories(): Promise<BlogCategory[]> {
 }
 
 // İlgili yazıları getir
-export async function getRelatedPosts(currentPostId: string, categoryId?: string, limit: number = 3): Promise<BlogPost[]> {
+export async function getRelatedPosts(
+  currentPostId: string,
+  categoryId?: string,
+  limit: number = 3
+): Promise<BlogPost[]> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, returning empty related posts')
+    return []
+  }
+
   try {
-    // Check if Supabase is properly configured
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!supabaseUrl || 
-        !supabaseAnonKey || 
-        supabaseUrl === 'https://your-project-id.supabase.co' ||
-        supabaseAnonKey === 'your-anon-key-here') {
-      console.warn('Supabase not configured, returning empty related posts')
-      return []
-    }
-
     let query = supabase
       .from('blog_posts')
-      .select(`
+      .select(
+        `
         *,
         category:blog_categories(id, name, slug, icon)
-      `)
+      `
+      )
       .eq('published', true)
       .neq('id', currentPostId)
       .limit(limit)
@@ -228,7 +229,7 @@ export async function getRelatedPosts(currentPostId: string, categoryId?: string
       return []
     }
 
-    return data || []
+    return (data as BlogPost[]) || []
   } catch (error) {
     console.error('Related posts fetch error:', error)
     return []
@@ -237,27 +238,22 @@ export async function getRelatedPosts(currentPostId: string, categoryId?: string
 
 // Öne çıkan yazıları getir
 export async function getFeaturedPosts(limit: number = 2): Promise<BlogPost[]> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, returning empty featured posts')
+    return []
+  }
+
   try {
-    // Check if Supabase is properly configured
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-    if (!supabaseUrl || 
-        !supabaseAnonKey || 
-        supabaseUrl === 'https://your-project-id.supabase.co' ||
-        supabaseAnonKey === 'your-anon-key-here') {
-      console.warn('Supabase not configured, returning empty featured posts')
-      return []
-    }
-
     const { data, error } = await supabase
       .from('blog_posts')
-      .select(`
+      .select(
+        `
         *,
         category:blog_categories(id, name, slug, icon)
-      `)
-      .eq('published', true)
+      `
+      )
       .eq('featured', true)
+      .eq('published', true)
       .order('created_at', { ascending: false })
       .limit(limit)
 
@@ -266,7 +262,7 @@ export async function getFeaturedPosts(limit: number = 2): Promise<BlogPost[]> {
       return []
     }
 
-    return data || []
+    return (data as BlogPost[]) || []
   } catch (error) {
     console.error('Featured posts fetch error:', error)
     return []
@@ -274,15 +270,24 @@ export async function getFeaturedPosts(limit: number = 2): Promise<BlogPost[]> {
 }
 
 // Blog yazısı oluştur (admin için)
-export async function createBlogPost(post: BlogPostInsert): Promise<BlogPost | null> {
+export async function createBlogPost(
+  post: BlogPostInsert
+): Promise<BlogPost | null> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, cannot create blog post')
+    return null
+  }
+
   try {
     const { data, error } = await supabase
       .from('blog_posts')
       .insert(post)
-      .select(`
+      .select(
+        `
         *,
         category:blog_categories(id, name, slug, icon)
-      `)
+      `
+      )
       .single()
 
     if (error) {
@@ -290,7 +295,7 @@ export async function createBlogPost(post: BlogPostInsert): Promise<BlogPost | n
       return null
     }
 
-    return data
+    return data as BlogPost
   } catch (error) {
     console.error('Blog post create error:', error)
     return null
@@ -298,16 +303,26 @@ export async function createBlogPost(post: BlogPostInsert): Promise<BlogPost | n
 }
 
 // Blog yazısı güncelle (admin için)
-export async function updateBlogPost(id: string, updates: Partial<BlogPostInsert>): Promise<BlogPost | null> {
+export async function updateBlogPost(
+  id: string,
+  updates: Partial<BlogPostInsert>
+): Promise<BlogPost | null> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, cannot update blog post')
+    return null
+  }
+
   try {
     const { data, error } = await supabase
       .from('blog_posts')
       .update(updates)
       .eq('id', id)
-      .select(`
+      .select(
+        `
         *,
         category:blog_categories(id, name, slug, icon)
-      `)
+      `
+      )
       .single()
 
     if (error) {
@@ -315,7 +330,7 @@ export async function updateBlogPost(id: string, updates: Partial<BlogPostInsert
       return null
     }
 
-    return data
+    return data as BlogPost
   } catch (error) {
     console.error('Blog post update error:', error)
     return null
@@ -324,20 +339,22 @@ export async function updateBlogPost(id: string, updates: Partial<BlogPostInsert
 
 // Blog yazısı sil (admin için)
 export async function deleteBlogPost(id: string): Promise<boolean> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, cannot delete blog post')
+    return false
+  }
+
   try {
-    const { error } = await supabase
-      .from('blog_posts')
-      .delete()
-      .eq('id', id)
+    const { error } = await supabase.from('blog_posts').delete().eq('id', id)
 
     if (error) {
-      console.error('Blog post delete error:', error)
+      console.error('Delete blog post error:', error)
       return false
     }
 
     return true
   } catch (error) {
-    console.error('Blog post delete error:', error)
+    console.error('Delete blog post error:', error)
     return false
   }
 }
