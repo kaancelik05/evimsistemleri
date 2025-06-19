@@ -62,7 +62,7 @@ export default function HomePage() {
                   Ev Finansmanı Hesapla
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-8 py-6 text-lg font-semibold rounded-xl transition-all duration-300">
+              <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <Link href="/araba-finansmani">
                   <Car className="mr-2 h-5 w-5" />
                   Araba Finansmanı Hesapla
