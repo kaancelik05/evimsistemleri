@@ -9,7 +9,7 @@ export interface CalculationParams {
 
 export interface PaymentScheduleItem {
   monthNumber: number
-  paymentDate: Date
+  paymentDate: string
   paymentAmount: number
   remainingBalance: number
   canAccessFinancing: boolean

@@ -170,7 +170,7 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
                       {item.monthNumber}
                     </TableCell>
                     <TableCell>
-                      {formatDate(item.paymentDate)}
+                      {formatDate(new Date(item.paymentDate))}
                     </TableCell>
                     <TableCell className="text-right font-medium">
                       {formatCurrency(item.paymentAmount)}

@@ -60,6 +60,7 @@ export function Header() {
             size="sm"
             className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
           >
             {mobileMenuOpen ? (
               <X className="h-6 w-6" />

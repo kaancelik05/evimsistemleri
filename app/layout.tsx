@@ -126,7 +126,69 @@ export const metadata: Metadata = {
     'msapplication-config': '/browserconfig.xml',
     'theme-color': '#2563eb',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.svg', type: 'image/svg+xml' }
+    ],
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.webmanifest',
 }
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  "name": "Evim Sistemleri",
+  "description": "Türkiye'nin en güvenilir faizsiz finansman platformu",
+  "url": "https://evimsistemler.com",
+  "logo": "https://evimsistemler.com/logo.png",
+  "image": "https://evimsistemler.com/og-image.jpg",
+  "telephone": "+908501234567",
+  "email": "info@evimsistemler.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Maslak Mahallesi Büyükdere Caddesi No:123",
+    "addressLocality": "Sarıyer",
+    "addressRegion": "İstanbul",
+    "addressCountry": "TR"
+  },
+  "sameAs": [
+    "https://twitter.com/evimsistemler",
+    "https://facebook.com/evimsistemler",
+    "https://linkedin.com/company/evimsistemler"
+  ],
+  "serviceType": "Faizsiz Finansman",
+  "areaServed": "Turkey",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Finansman Hizmetleri",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Ev Finansmanı",
+          "description": "Faizsiz ev finansmanı çözümleri"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Araba Finansmanı",
+          "description": "Faizsiz araba finansmanı çözümleri"
+        }
+      }
+    ]
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "10000",
+    "bestRating": "5"
+  }
+};
 
 export default function RootLayout({
   children,
@@ -136,74 +198,9 @@ export default function RootLayout({
   return (
     <html lang="tr" className={inter.variable}>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.webmanifest" />
-        
-        {/* Preconnect to external domains */}
+        {/* Preconnect to external domains - a Pexels CDN-t használjuk a blog képei için */}
         <link rel="preconnect" href="https://images.pexels.com" />
         <link rel="dns-prefetch" href="https://images.pexels.com" />
-        
-        {/* Schema.org structured data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FinancialService",
-              "name": "Evim Sistemleri",
-              "description": "Türkiye'nin en güvenilir faizsiz finansman platformu",
-              "url": "https://evimsistemler.com",
-              "logo": "https://evimsistemler.com/logo.png",
-              "image": "https://evimsistemler.com/og-image.jpg",
-              "telephone": "+908501234567",
-              "email": "info@evimsistemler.com",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Maslak Mahallesi Büyükdere Caddesi No:123",
-                "addressLocality": "Sarıyer",
-                "addressRegion": "İstanbul",
-                "addressCountry": "TR"
-              },
-              "sameAs": [
-                "https://twitter.com/evimsistemler",
-                "https://facebook.com/evimsistemler",
-                "https://linkedin.com/company/evimsistemler"
-              ],
-              "serviceType": "Faizsiz Finansman",
-              "areaServed": "Turkey",
-              "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": "Finansman Hizmetleri",
-                "itemListElement": [
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Ev Finansmanı",
-                      "description": "Faizsiz ev finansmanı çözümleri"
-                    }
-                  },
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Araba Finansmanı",
-                      "description": "Faizsiz araba finansmanı çözümleri"
-                    }
-                  }
-                ]
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "reviewCount": "10000",
-                "bestRating": "5"
-              }
-            })
-          }}
-        />
       </head>
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
@@ -214,6 +211,10 @@ export default function RootLayout({
           <Footer />
         </div>
         <Toaster />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </body>
     </html>
   )

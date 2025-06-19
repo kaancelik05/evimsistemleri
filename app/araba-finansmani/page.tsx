@@ -3,9 +3,7 @@
 import { useState } from 'react'
 import { CalculationForm } from '@/components/calculation/calculation-form'
 import { PaymentScheduleTable } from '@/components/calculation/payment-schedule-table'
-import { FormData } from '@/lib/types'
-import { calculatePaymentPlan } from '@/lib/calculations'
-import { CalculationResult } from '@/lib/types'
+import { FormData, CalculationResult } from '@/lib/types'
 import { Car, Zap, Shield, Clock } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -13,23 +11,31 @@ export default function ArabaFinansmanPage() {
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const handleCalculate = async (data: FormData) => {
+  const handleCalculate = (data: FormData) => {
     setLoading(true)
-    try {
-      // Simüle edilmiş gecikme
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      const calculationResult = calculatePaymentPlan({
-        ...data,
-        calculationType: 'araba'
-      })
-      
-      setResult(calculationResult)
-    } catch (error) {
-      console.error('Hesaplama hatası:', error)
-    } finally {
+    
+    // Create a new worker instance
+    const worker = new Worker(new URL('@/workers/calculation.worker.ts', import.meta.url))
+
+    // Listen for messages from the worker
+    worker.onmessage = (event: MessageEvent<CalculationResult>) => {
+      setResult(event.data)
       setLoading(false)
+      worker.terminate() // Clean up the worker
     }
+
+    // Handle errors from the worker
+    worker.onerror = (error) => {
+      console.error('Worker error:', error)
+      setLoading(false)
+      worker.terminate()
+    }
+
+    // Send data to the worker
+    worker.postMessage({
+      ...data,
+      calculationType: 'araba'
+    })
   }
 
   return (

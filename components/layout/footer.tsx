@@ -128,15 +128,15 @@ export function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-center md:text-left">
-              <p className="text-gray-400">
+              <p className="text-gray-300">
                 &copy; 2024 Evim Sistemleri. Tüm hakları saklıdır.
               </p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-300 mt-1">
                 Türkiye'nin en güvenilir faizsiz finansman platformu
               </p>
             </div>
             
-            <div className="flex items-center space-x-4 text-sm text-gray-400">
+            <div className="flex items-center space-x-4 text-sm text-gray-300">
               <span>10.000+ Mutlu Müşteri</span>
               <span>•</span>
               <span>%98 Memnuniyet</span>
