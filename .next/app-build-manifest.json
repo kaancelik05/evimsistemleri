@@ -11,16 +11,6 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/araba-finansmani/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/araba-finansmani/page.js"
-    ],
-    "/araba-finansmani/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/araba-finansmani/layout.js"
-    ],
     "/blog/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -30,6 +20,26 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/blog/layout.js"
+    ],
+    "/hakkimizda/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hakkimizda/page.js"
+    ],
+    "/hakkimizda/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/hakkimizda/layout.js"
+    ],
+    "/iletisim/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/iletisim/page.js"
+    ],
+    "/iletisim/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/iletisim/layout.js"
     ]
   }
 }

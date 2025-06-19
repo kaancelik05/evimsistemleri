@@ -1,24 +1,34 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Calculator, Home, Car, Info, Phone, Menu, X, BookOpen } from 'lucide-react'
-import { useState } from 'react'
-import { cn } from '@/lib/utils'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Calculator,
+  HousePlus,
+  Home,
+  Car,
+  Info,
+  Phone,
+  Menu,
+  X,
+  BookOpen,
+} from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const navigation = [
-  { name: 'Ana Sayfa', href: '/', icon: Home },
-  { name: 'Ev Finansmanı', href: '/ev-finansmani', icon: Home },
-  { name: 'Araba Finansmanı', href: '/araba-finansmani', icon: Car },
-  { name: 'Blog', href: '/blog', icon: BookOpen },
-  { name: 'Hakkımızda', href: '/hakkimizda', icon: Info },
-  { name: 'İletişim', href: '/iletisim', icon: Phone },
-]
+  { name: "Anasayfa", href: "/", icon: Home },
+  { name: "Ev Finansmanı", href: "/ev-finansmani", icon: HousePlus },
+  { name: "Araba Finansmanı", href: "/araba-finansmani", icon: Car },
+  { name: "Blog", href: "/blog", icon: BookOpen },
+  { name: "Hakkımızda", href: "/hakkimizda", icon: Info },
+  { name: "İletişim", href: "/iletisim", icon: Phone },
+];
 
 export function Header() {
-  const pathname = usePathname()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -35,22 +45,23 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {navigation.map((item) => {
-              const Icon = item.icon
+              const Icon = item.icon;
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    'flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors',
-                    pathname === item.href || (item.href === '/blog' && pathname.startsWith('/blog'))
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                    "flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                    pathname === item.href ||
+                      (item.href === "/blog" && pathname.startsWith("/blog"))
+                      ? "text-blue-600 bg-blue-50"
+                      : "text-gray-700 hover:text-blue-600 hover:bg-gray-50",
                   )}
                 >
                   <Icon className="h-4 w-4" />
                   <span>{item.name}</span>
                 </Link>
-              )
+              );
             })}
           </nav>
 
@@ -75,28 +86,29 @@ export function Header() {
           <div className="md:hidden py-4 border-t">
             <nav className="flex flex-col space-y-2">
               {navigation.map((item) => {
-                const Icon = item.icon
+                const Icon = item.icon;
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
                     className={cn(
-                      'flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors',
-                      pathname === item.href || (item.href === '/blog' && pathname.startsWith('/blog'))
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                      "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      pathname === item.href ||
+                        (item.href === "/blog" && pathname.startsWith("/blog"))
+                        ? "text-blue-600 bg-blue-50"
+                        : "text-gray-700 hover:text-blue-600 hover:bg-gray-50",
                     )}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <Icon className="h-4 w-4" />
                     <span>{item.name}</span>
                   </Link>
-                )
+                );
               })}
             </nav>
           </div>
         )}
       </div>
     </header>
-  )
+  );
 }
