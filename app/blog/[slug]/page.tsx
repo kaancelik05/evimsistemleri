@@ -129,8 +129,6 @@ const iconMap = {
 export async function generateStaticParams() {
   // Supabase konfigürasyonu kontrolü
   if (!isSupabaseConfigured()) {
-    console.log('Supabase yapılandırılmamış, yedek static params kullanılıyor')
-    console.log('Lütfen .env.local dosyasında NEXT_PUBLIC_SUPABASE_URL ve NEXT_PUBLIC_SUPABASE_ANON_KEY değerlerini kontrol edin')
     return [
       { slug: 'faizsiz-finansman-avantajlari' },
       { slug: 'ev-satin-alirken-dikkat-edilmesi-gerekenler' },
@@ -144,7 +142,6 @@ export async function generateStaticParams() {
     const result = await getBlogPosts()
     
     if (result.posts.length === 0) {
-      console.log('Supabase veritabanında blog yazısı bulunamadı, yedek static params kullanılıyor')
       return [
         { slug: 'faizsiz-finansman-avantajlari' },
         { slug: 'ev-satin-alirken-dikkat-edilmesi-gerekenler' },

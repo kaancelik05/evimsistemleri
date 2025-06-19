@@ -89,7 +89,6 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
         toast.error('Hesaplama kaydedilemedi, ancak sonuçlar gösteriliyor.')
       } else {
         const result = await response.json()
-        console.log('Calculation saved:', result)
         toast.success('Hesaplama başarıyla kaydedildi!')
       }
     } catch (error) {
