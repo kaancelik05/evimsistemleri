@@ -196,7 +196,7 @@ export default function HomePage() {
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-6 text-lg font-semibold rounded-xl transition-all duration-300">
-              <Link href="/araba-finansmani">
+              <Link href="/araba-finansmani" className="text-white hover:text-blue-600">
                 <Car className="mr-2 h-5 w-5" />
                 Araba Finansmanı
               </Link>
