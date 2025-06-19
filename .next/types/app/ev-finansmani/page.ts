@@ -1,4 +1,4 @@
-// File: /Users/kaancelik/Desktop/evimsistemleri/app/ev-finansmani/page.tsx
+// File: /home/runner/workspace/app/ev-finansmani/page.tsx
 import * as entry from '../../../../app/ev-finansmani/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
