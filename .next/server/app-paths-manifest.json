@@ -1,6 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/ev-finansmani/page": "app/ev-finansmani/page.js",
-  "/hakkimizda/page": "app/hakkimizda/page.js",
-  "/araba-finansmani/page": "app/araba-finansmani/page.js"
+  "/page": "app/page.js"
 }
