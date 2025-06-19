@@ -1,24 +1,29 @@
+"use client";
 
-
-'use client'
-
-import Link from 'next/link'
-import { Calculator, Mail, Phone, MapPin, ExternalLink, Heart, ArrowUp } from 'lucide-react'
+import Link from "next/link";
+import {
+  Calculator,
+  Mail,
+  Phone,
+  MapPin,
+  ExternalLink,
+  Heart,
+  ArrowUp,
+} from "lucide-react";
 
 export function Footer() {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <footer className="bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-grid-white/[0.02]" />
-      
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main footer content */}
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          
           {/* Brand section */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center space-x-3 mb-6 group">
@@ -30,30 +35,32 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-gray-300 leading-relaxed mb-6">
-              Türkiye'nin en güvenilir faizsiz finansman hesaplama platformu. 
+              Türkiye'nin en güvenilir faizsiz finansman hesaplama platformu.
               Modern, şeffaf ve güvenilir çözümlerle hayallerinize ulaşın.
             </p>
             <div className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
               <Mail className="h-4 w-4" />
               <a href="mailto:info@evimsistemler.com" className="text-sm">
-                info@evimsistemler.com
+                contact@evimsistemleri.com
               </a>
             </div>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Hizmetlerimiz</h3>
+            <h3 className="text-lg font-semibold mb-6 text-white">
+              Hizmetlerimiz
+            </h3>
             <ul className="space-y-3">
               {[
-                { name: 'Ev Finansmanı', href: '/ev-finansmani' },
-                { name: 'Araba Finansmanı', href: '/araba-finansmani' },
-                { name: 'Finansman Rehberi', href: '/blog/finansman' },
-                { name: 'Hesaplama Araçları', href: '/' }
+                { name: "Ev Finansmanı", href: "/ev-finansmani" },
+                { name: "Araba Finansmanı", href: "/araba-finansmani" },
+                { name: "Finansman Rehberi", href: "/blog/finansman" },
+                { name: "Hesaplama Araçları", href: "/" },
               ].map((item) => (
                 <li key={item.name}>
-                  <Link 
-                    href={item.href} 
+                  <Link
+                    href={item.href}
                     className="text-gray-300 hover:text-white transition-colors duration-200 text-sm"
                   >
                     {item.name}
@@ -68,14 +75,14 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-6 text-white">Kurumsal</h3>
             <ul className="space-y-3">
               {[
-                { name: 'Hakkımızda', href: '/hakkimizda' },
-                { name: 'Blog', href: '/blog' },
-                { name: 'İletişim', href: '/iletisim' },
-                { name: 'Gizlilik Politikası', href: '/gizlilik-politikasi' }
+                { name: "Hakkımızda", href: "/hakkimizda" },
+                { name: "Blog", href: "/blog" },
+                { name: "İletişim", href: "/iletisim" },
+                { name: "Gizlilik Politikası", href: "/gizlilik-politikasi" },
               ].map((item) => (
                 <li key={item.name}>
-                  <Link 
-                    href={item.href} 
+                  <Link
+                    href={item.href}
                     className="text-gray-300 hover:text-white transition-colors duration-200 text-sm"
                   >
                     {item.name}
@@ -87,15 +94,19 @@ export function Footer() {
 
           {/* Stats */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Güven ve Başarı</h3>
+            <h3 className="text-lg font-semibold mb-6 text-white">
+              Güven ve Başarı
+            </h3>
             <div className="space-y-4">
               {[
-                { number: '50K+', label: 'Mutlu Kullanıcı' },
-                { number: '₺2.5M+', label: 'Hesaplanan Tutar' },
-                { number: '%99.9', label: 'Doğruluk Oranı' }
+                { number: "50K+", label: "Mutlu Kullanıcı" },
+                { number: "₺2.5M+", label: "Hesaplanan Tutar" },
+                { number: "%99.9", label: "Doğruluk Oranı" },
               ].map((stat) => (
                 <div key={stat.label} className="flex items-center space-x-3">
-                  <div className="text-blue-400 font-bold text-lg">{stat.number}</div>
+                  <div className="text-blue-400 font-bold text-lg">
+                    {stat.number}
+                  </div>
                   <div className="text-gray-300 text-sm">{stat.label}</div>
                 </div>
               ))}
@@ -114,7 +125,7 @@ export function Footer() {
                 Faizsiz finansman hesaplamalarında güvenilir çözüm ortağınız
               </p>
             </div>
-            
+
             {/* Scroll to top button */}
             <button
               onClick={scrollToTop}
@@ -127,6 +138,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
