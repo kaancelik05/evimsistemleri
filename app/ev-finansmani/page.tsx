@@ -78,7 +78,7 @@ export default function EvFinansmanPage() {
               <CardContent className="p-6 text-center">
                 <Home className="h-12 w-12 text-purple-600 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Hızlı Süreç</h3>
-                <p className="text-gray-600">Kolay başvuru ve hızlı onay süreci</p>
+                <p className="text-gray-600">Kolaylıkla bilgilerini gir, hesapla ve karşılaştır</p>
               </CardContent>
             </Card>
           </div>

@@ -13,8 +13,8 @@ import {
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Hakkımızda - Evim Sistemleri | Türkiye\'nin En Güvenilir Faizsiz Finansman Platformu',
-  description: 'Evim Sistemleri hakkında bilgi edinin. Misyonumuz, vizyonumuz, değerlerimiz ve 10.000+ mutlu müşterimizle oluşturduğumuz güven. Faizsiz finansman alanında öncü şirket.',
+  title: 'Hakkımızda - Evim Sistemleri | Türkiye\'nin En Güvenilir Faizsiz Finansman Hesaplama Platformu',
+  description: 'Evim Sistemleri hakkında bilgi edinin. Misyonumuz, vizyonumuz, değerlerimiz ve güven. Faizsiz finansman hesaplama alanında öncü şirket.',
   keywords: [
     'evim sistemleri hakkında',
     'faizsiz finansman şirketi',
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
     'araba finansmanı şirketi'
   ],
   openGraph: {
-    title: 'Hakkımızda - Evim Sistemleri | Türkiye\'nin En Güvenilir Faizsiz Finansman Platformu',
-    description: 'Evim Sistemleri hakkında bilgi edinin. 10.000+ mutlu müşteri, %98 memnuniyet oranı ile Türkiye\'nin en güvenilir faizsiz finansman platformu.',
+    title: 'Hakkımızda - Evim Sistemleri | Türkiye\'nin En Güvenilir Faizsiz Finansman Hesaplama Platformu',
+    description: 'Evim Sistemleri hakkında bilgi edinin. Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu.',
     images: ['/og-hakkimizda.jpg'],
   },
   alternates: {
@@ -52,7 +52,7 @@ export default function HakkimizdaPage() {
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
               Faizsiz finansman alanında öncü, müşteri memnuniyetini her şeyin üstünde tutan Evim Sistemleri ekibiyiz. 
-              10.000+ mutlu müşteri ile Türkiye'nin en güvenilir platformu.
+              Türkiye'nin en güvenilir platformu.
             </p>
           </div>
         </div>
@@ -71,10 +71,7 @@ export default function HakkimizdaPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 text-lg leading-relaxed">
-                  Evim Sistemleri olarak, faizsiz finansman sistemleri ile insanların hayallerine kavuşmalarını sağlamak, 
-                  şeffaf ve adil finansal çözümler sunarak toplumsal refahı artırmaktır. 
-                  Her bireyin ev ve araba sahibi olma hakkını destekler, 
-                  geleneksel bankacılık sistemlerine alternatif çözümler geliştiririz.
+                  Evim Sistemleri olarak, faizsiz finansman sistemleri hakkında bilgi vermek ve müşterilerimize en uygun çözümleri sunmak. Kullanıcılarımızın hayallerine kavuşmalarını sağlamak. Finansal bilgiler paylaşarak kullanıcılarımızın finansal okuryazarlığına katkı sağlamak.
                 </p>
               </CardContent>
             </Card>
@@ -88,7 +85,7 @@ export default function HakkimizdaPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600 text-lg leading-relaxed">
-                  Türkiye'nin en güvenilir ve yenilikçi faizsiz finansman platformu olmak. 
+                  Türkiye'nin en güvenilir ve yenilikçi faizsiz finansman hesaplama platformu olmak. 
                   Teknoloji ile finansı birleştirerek, herkesin erişebileceği, 
                   şeffaf ve kullanıcı dostu çözümler geliştirmek. 
                   Finansal adaleti sağlayarak, toplumun her kesiminden insana hizmet etmek.
@@ -137,7 +134,7 @@ export default function HakkimizdaPage() {
               <CardContent>
                 <p className="text-gray-600">
                   Verdiğimiz sözleri tutar, müşterilerimizin güvenini 
-                  her zaman korur ve geliştiririz. 10.000+ mutlu müşteri referansımız.
+                  her zaman korur ve geliştiririz.
                 </p>
               </CardContent>
             </Card>
@@ -152,7 +149,7 @@ export default function HakkimizdaPage() {
               <CardContent>
                 <p className="text-gray-600">
                   Müşterilerimizin ihtiyaçlarını önceleyir, 
-                  onların memnuniyeti için sürekli çalışırız. %98 memnuniyet oranı.
+                  onların memnuniyeti için sürekli çalışırız.
                 </p>
               </CardContent>
             </Card>
@@ -205,58 +202,6 @@ export default function HakkimizdaPage() {
         </div>
       </section>
 
-      {/* İstatistikler */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Rakamlarla Biz
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Başarılarımızı gösteren önemli veriler ve müşteri memnuniyeti
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-10 w-10 text-blue-600" />
-              </div>
-              <h3 className="text-4xl font-bold text-gray-900 mb-2">10,000+</h3>
-              <p className="text-gray-600 font-medium">Mutlu Müşteri</p>
-              <p className="text-sm text-gray-500 mt-1">Hayallerine kavuşan aileler</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="h-10 w-10 text-green-600" />
-              </div>
-              <h3 className="text-4xl font-bold text-gray-900 mb-2">₺2.5M+</h3>
-              <p className="text-gray-600 font-medium">Toplam Finansman</p>
-              <p className="text-sm text-gray-500 mt-1">Gerçekleştirilen finansman tutarı</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="h-10 w-10 text-purple-600" />
-              </div>
-              <h3 className="text-4xl font-bold text-gray-900 mb-2">%98</h3>
-              <p className="text-gray-600 font-medium">Müşteri Memnuniyeti</p>
-              <p className="text-sm text-gray-500 mt-1">Kanıtlanmış memnuniyet oranı</p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="h-10 w-10 text-orange-600" />
-              </div>
-              <h3 className="text-4xl font-bold text-gray-900 mb-2">5+</h3>
-              <p className="text-gray-600 font-medium">Yıllık Deneyim</p>
-              <p className="text-sm text-gray-500 mt-1">Sektördeki tecrübemiz</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Neden Bizi Seçmelisiniz */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -303,21 +248,6 @@ export default function HakkimizdaPage() {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                    <CheckCircle className="h-5 w-5 text-purple-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      7/24 Destek
-                    </h3>
-                    <p className="text-gray-600">
-                      Müşteri hizmetleri ekibimiz her zaman yanınızda, sorularınızı yanıtlıyoruz. 
-                      Telefon ve WhatsApp desteği.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
                   <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <CheckCircle className="h-5 w-5 text-orange-600" />
                   </div>
@@ -348,20 +278,6 @@ export default function HakkimizdaPage() {
                       Binlerce müşterimizin güvendiği, sektörde öncü konumumuz ile 
                       size en iyi hizmeti sunmaya devam ediyoruz.
                     </p>
-                    <div className="flex justify-center space-x-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-blue-600">5+</div>
-                        <div className="text-sm text-gray-600">Yıl Deneyim</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-600">10K+</div>
-                        <div className="text-sm text-gray-600">Müşteri</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-purple-600">%98</div>
-                        <div className="text-sm text-gray-600">Memnuniyet</div>
-                      </div>
-                    </div>
                   </div>
                 </CardContent>
               </Card>

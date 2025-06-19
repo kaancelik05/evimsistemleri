@@ -9,6 +9,28 @@ self.onmessage = (event: MessageEvent<CalculationParams>) => {
 
 // The following functions are moved from lib/calculations.ts
 
+function calculateStandardAccessibleMonth(params: CalculationParams): number | null {
+  const { downPayment = 0, financingAmount, organizationFeeRate, monthlyPayment } = params;
+  
+  const organizationFee = financingAmount * (organizationFeeRate / 100);
+  const netFinancing = financingAmount - downPayment;
+  const requiredPayment = downPayment > 0 ? netFinancing * 0.25 : financingAmount * 0.40;
+  const totalPayment = financingAmount + organizationFee;
+  const remainingAmount = totalPayment - downPayment;
+  const installmentCount = Math.ceil(remainingAmount / monthlyPayment);
+
+  let cumulativePayment = downPayment;
+  for (let month = 1; month <= installmentCount; month++) {
+    if (month > 5 && cumulativePayment >= requiredPayment) {
+      return month;
+    }
+    const isLastPayment = month === installmentCount;
+    const currentPayment = isLastPayment ? (totalPayment - downPayment) - cumulativePayment : monthlyPayment;
+    cumulativePayment += currentPayment;
+  }
+  return null;
+}
+
 function calculatePaymentPlan(params: CalculationParams): CalculationResult {
   const {
     financingAmount,
@@ -20,30 +42,28 @@ function calculatePaymentPlan(params: CalculationParams): CalculationResult {
 
   const organizationFee = financingAmount * (organizationFeeRate / 100)
   const netFinancing = financingAmount - downPayment
+  const requiredPayment = downPayment > 0 ? netFinancing * 0.25 : financingAmount * 0.40
+  
+  // Total cost for user, for display purposes.
+  const totalPaymentForDisplay = financingAmount + organizationFee
+  
+  // The amount to be paid off via installments is only the financing amount minus downpayment.
+  const amountToFinanceViaInstallments = financingAmount - downPayment
+  const installmentCount = Math.ceil(amountToFinanceViaInstallments / monthlyPayment)
 
-  const requiredPayment = downPayment > 0
-    ? netFinancing * 0.25
-    : financingAmount * 0.40
-
-  const totalPayment = financingAmount + organizationFee
-
-  const remainingAmount = totalPayment - downPayment
-  const installmentCount = Math.ceil(remainingAmount / monthlyPayment)
-
-  const schedule = generatePaymentSchedule({
+  const { schedule, accessibleMonth } = generatePaymentSchedule({
     installmentCount,
     monthlyPayment,
     financingType,
     requiredPayment,
     downPayment,
-    remainingAmount
+    remainingAmount: amountToFinanceViaInstallments,
+    totalPayment: financingAmount, // Pass the financing amount as the total to be paid back.
   })
-
-  const accessibleMonth = findAccessibleMonth(schedule, requiredPayment)
 
   return {
     schedule,
-    totalPayment,
+    totalPayment: totalPaymentForDisplay,
     installmentCount,
     organizationFee,
     netFinancing,
@@ -59,15 +79,38 @@ interface ScheduleParams {
   requiredPayment: number
   downPayment: number
   remainingAmount: number
+  totalPayment: number
 }
 
-function generatePaymentSchedule(params: ScheduleParams): PaymentScheduleItem[] {
-  const { installmentCount, monthlyPayment, financingType, requiredPayment, downPayment, remainingAmount } = params
+function generatePaymentSchedule(params: ScheduleParams): { schedule: PaymentScheduleItem[], accessibleMonth: number | null } {
+  const { installmentCount, monthlyPayment, financingType, requiredPayment, downPayment, remainingAmount, totalPayment } = params
   const schedule: PaymentScheduleItem[] = []
   const startDate = new Date()
   
-  let cumulativePayment = downPayment
-  let remainingBalance = remainingAmount
+  // 1. Determine the single, standard accessible month.
+  let standardAccessibleMonth: number | null = null;
+  let tempCumulative = downPayment;
+  for (let m = 1; m <= installmentCount; m++) {
+      if (m > 5 && tempCumulative >= requiredPayment) {
+          standardAccessibleMonth = m;
+          break; 
+      }
+      const isLast = m === installmentCount;
+      const payment = isLast ? remainingAmount - (tempCumulative - downPayment) : monthlyPayment;
+      tempCumulative += payment;
+  }
+  // Check last month separately
+  if (!standardAccessibleMonth && tempCumulative >= requiredPayment && installmentCount > 5) {
+    standardAccessibleMonth = installmentCount;
+  }
+
+
+  // 2. The access month is now deterministic for both types.
+  const finalAccessibleMonth = standardAccessibleMonth;
+
+  // 3. Build the schedule array with the correct statuses based on financing type
+  let cumulativePayment = downPayment;
+  let remainingBalance = remainingAmount;
 
   for (let month = 1; month <= installmentCount; month++) {
     const paymentDate = addMonths(startDate, month)
@@ -77,42 +120,51 @@ function generatePaymentSchedule(params: ScheduleParams): PaymentScheduleItem[] 
     cumulativePayment += currentPayment
     remainingBalance -= currentPayment
 
-    let status: PaymentScheduleItem['status'] = 'waiting'
-    let canAccessFinancing = false
-
-    if (month <= 5) {
-      status = 'waiting'
-      canAccessFinancing = false
-    } else if (cumulativePayment >= requiredPayment) {
-      if (financingType === 'cekilissiz') {
-        status = 'accessible'
-        canAccessFinancing = true
-      } else {
-        const isLucky = Math.random() > 0.5
-        status = isLucky ? 'lucky' : 'unlucky'
-        canAccessFinancing = isLucky
-      }
+    let status: PaymentScheduleItem['status'] = 'waiting';
+    let canAccessFinancing = false;
+    
+    if (financingType === 'cekilissiz') {
+        if (finalAccessibleMonth) {
+            if (month < finalAccessibleMonth) {
+                status = 'waiting';
+            } else if (month === finalAccessibleMonth) {
+                canAccessFinancing = true;
+                status = 'accessible';
+            } else { // month > finalAccessibleMonth
+                status = 'financing_obtained';
+            }
+        } else {
+            status = 'waiting';
+        }
+    } else { // financingType === 'cekilisli'
+        if (finalAccessibleMonth) {
+            if (month <= 5) {
+                status = 'waiting';
+            } else if (month > 5 && month <= finalAccessibleMonth) {
+                status = 'lucky'; // "Şanslı Çekiliş" periyodu
+            } else { // month > finalAccessibleMonth
+                status = 'unlucky'; // "Şanssız Çekiliş" periyodu
+            }
+            
+            if (month === finalAccessibleMonth) {
+                canAccessFinancing = true;
+            }
+        } else {
+            // Never eligible
+            status = 'waiting';
+        }
     }
 
     schedule.push({
       monthNumber: month,
-      paymentDate: paymentDate.toISOString(), // Use string to pass through worker
+      paymentDate: paymentDate.toISOString(),
       paymentAmount: currentPayment,
       remainingBalance: Math.max(0, remainingBalance),
       canAccessFinancing,
       status,
       cumulativePayment
-    })
+    });
   }
 
-  return schedule
-}
-
-function findAccessibleMonth(schedule: PaymentScheduleItem[], requiredPayment: number): number | null {
-  for (const item of schedule) {
-    if (item.cumulativePayment >= requiredPayment && item.monthNumber > 5) {
-      return item.monthNumber
-    }
-  }
-  return null
+  return { schedule, accessibleMonth: finalAccessibleMonth };
 } 

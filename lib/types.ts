@@ -13,7 +13,7 @@ export interface PaymentScheduleItem {
   paymentAmount: number
   remainingBalance: number
   canAccessFinancing: boolean
-  status: 'waiting' | 'lucky' | 'unlucky' | 'accessible'
+  status: 'waiting' | 'lucky' | 'unlucky' | 'accessible' | 'financing_obtained'
   cumulativePayment: number
 }
 

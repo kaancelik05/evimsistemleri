@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     default: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı | Türkiye\'nin En Güvenilir Platformu',
     template: '%s | Evim Sistemleri - Faizsiz Finansman'
   },
-  description: 'Türkiye\'nin en güvenilir faizsiz finansman platformu Evim Sistemleri. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın. Şeffaf, güvenli ve hızlı çözümler. 10.000+ mutlu müşteri.',
+  description: 'Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu Evim Sistemleri. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın. Şeffaf, güvenli ve hızlı çözümler.',
   keywords: [
     'evim sistemleri',
     'faizsiz finansman',
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     url: 'https://evimsistemler.com',
     siteName: 'Evim Sistemleri',
     title: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı',
-    description: 'Türkiye\'nin en güvenilir faizsiz finansman platformu. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın. 10.000+ mutlu müşteri, %98 memnuniyet oranı.',
+    description: 'Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın.',
     images: [
       {
         url: '/og-image.jpg',
@@ -98,7 +98,7 @@ export const metadata: Metadata = {
     site: '@evimsistemler',
     creator: '@evimsistemler',
     title: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı',
-    description: 'Türkiye\'nin en güvenilir faizsiz finansman platformu. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın.',
+    description: 'Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın.',
     images: ['/twitter-image.jpg'],
   },
   verification: {
@@ -140,12 +140,11 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "FinancialService",
   "name": "Evim Sistemleri",
-  "description": "Türkiye'nin en güvenilir faizsiz finansman platformu",
+  "description": "Türkiye'nin en güvenilir faizsiz finansman hesaplama platformu",
   "url": "https://evimsistemler.com",
   "logo": "https://evimsistemler.com/logo.png",
   "image": "https://evimsistemler.com/og-image.jpg",
-  "telephone": "+908501234567",
-  "email": "info@evimsistemler.com",
+  "email": "contact@evimsistemleri.com",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Maslak Mahallesi Büyükdere Caddesi No:123",

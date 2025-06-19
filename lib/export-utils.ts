@@ -99,9 +99,11 @@ function getStatusText(status: PaymentScheduleItem['status']): string {
     case 'accessible':
       return 'Erişilebilir'
     case 'lucky':
-      return 'Şanslı'
+      return 'Şanslı Çekiliş'
     case 'unlucky':
-      return 'Şanssız'
+      return 'Şanssız Çekiliş'
+    case 'financing_obtained':
+      return 'Finansman Alındı'
     default:
       return 'Bilinmiyor'
   }

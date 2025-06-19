@@ -67,8 +67,7 @@ export function FeaturesSection() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600">
-                Başvurunuzdan onaya kadar tüm süreç hızlı ve kolay. Online
-                hesaplama ve başvuru imkanı.
+                Hızla hesaplamanızı yapabilmeniz ve değerlendirebilmeniz için kolay ve kullanışlı tasarım.
               </p>
             </CardContent>
           </Card>
@@ -82,8 +81,7 @@ export function FeaturesSection() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600">
-                10.000+ müşterimizin güvendiği, kanıtlanmış sistem. %98
-                müşteri memnuniyet oranı.
+                Faizsiz finansman sistemine göre en doğru algoritmalar ile hasplamalar yapmanızı sağlar.
               </p>
             </CardContent>
           </Card>
@@ -112,8 +110,7 @@ export function FeaturesSection() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600">
-                Uzman müşteri hizmetleri ekibimiz ile her zaman yanınızdayız.
-                Telefon ve WhatsApp desteği.
+                Uzman müşteri hizmetleri ekibimiz ile her zaman yanınızdayız.Sorulanız için iletişime geçin.
               </p>
             </CardContent>
           </Card>

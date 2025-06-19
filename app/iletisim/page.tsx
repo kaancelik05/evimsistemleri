@@ -16,6 +16,7 @@ import {
   HeadphonesIcon
 } from 'lucide-react'
 import { toast } from 'sonner'
+import { sendContactEmail } from './_actions'
 
 export default function IletisimPage() {
   const [formData, setFormData] = useState({
@@ -31,13 +32,10 @@ export default function IletisimPage() {
     e.preventDefault()
     setLoading(true)
 
-    try {
-      // Simüle edilmiş form gönderimi
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+    const result = await sendContactEmail(formData)
+
+    if (result.success) {
       toast.success('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.')
-      
-      // Formu temizle
       setFormData({
         name: '',
         email: '',
@@ -45,11 +43,11 @@ export default function IletisimPage() {
         subject: '',
         message: ''
       })
-    } catch (error) {
+    } else {
       toast.error('Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
-    } finally {
-      setLoading(false)
     }
+    
+    setLoading(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,7 +69,7 @@ export default function IletisimPage() {
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
               Faizsiz finansman konularında sorularınız için bize ulaşın. Uzman ekibimiz size yardımcı olmaktan mutluluk duyar. 
-              7/24 müşteri hizmetleri ile yanınızdayız.
+              Müşteri hizmetleri ile yanınızdayız.
             </p>
           </div>
         </div>
@@ -85,57 +83,7 @@ export default function IletisimPage() {
             <p className="text-xl text-gray-600">Size en uygun iletişim kanalını seçin</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <Card className="border-0 shadow-lg text-center">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Telefon Desteği</h3>
-                <p className="text-gray-600 mb-4">7/24 müşteri hizmetleri ve finansman danışmanlığı</p>
-                <a 
-                  href="tel:+908501234567" 
-                  className="text-blue-600 hover:text-blue-700 font-medium text-lg"
-                >
-                  0850 123 45 67
-                </a>
-                <p className="text-sm text-gray-500 mt-2">Ücretsiz arama</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg text-center">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">E-posta Desteği</h3>
-                <p className="text-gray-600 mb-4">24 saat içinde yanıt garantisi</p>
-                <a 
-                  href="mailto:info@evimsistemler.com" 
-                  className="text-green-600 hover:text-green-700 font-medium"
-                >
-                  info@evimsistemler.com
-                </a>
-                <p className="text-sm text-gray-500 mt-2">Detaylı sorularınız için</p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg text-center">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="h-8 w-8 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Merkez Ofis</h3>
-                <p className="text-gray-600 mb-4">Randevu ile ziyaret edebilirsiniz</p>
-                <address className="text-gray-700 not-italic">
-                  Maslak Mahallesi<br />
-                  Büyükdere Caddesi No:123<br />
-                  Sarıyer/İstanbul
-                </address>
-              </CardContent>
-            </Card>
-          </div>
-
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* İletişim Formu */}
             <Card className="border-0 shadow-lg">
@@ -256,12 +204,6 @@ export default function IletisimPage() {
                       <span className="font-medium text-red-600">Kapalı</span>
                     </div>
                   </div>
-                  <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-blue-800">
-                      <strong>Not:</strong> Acil durumlar için 7/24 telefon hattımız aktiftir. 
-                      Faizsiz finansman konularında uzman desteği.
-                    </p>
-                  </div>
                 </CardContent>
               </Card>
 
@@ -299,30 +241,6 @@ export default function IletisimPage() {
                       </p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">WhatsApp Hızlı İletişim</h3>
-                  <p className="text-blue-100 mb-4">
-                    Acil sorularınız ve hızlı finansman danışmanlığı için WhatsApp hattımızdan bize ulaşabilirsiniz. 
-                    Uzman ekibimiz size anında yardımcı olur.
-                  </p>
-                  <Button 
-                    asChild 
-                    variant="secondary" 
-                    className="bg-white text-blue-600 hover:bg-blue-50"
-                  >
-                    <a 
-                      href="https://wa.me/908501234567" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <MessageCircle className="h-4 w-4 mr-2" />
-                      WhatsApp ile İletişim
-                    </a>
-                  </Button>
                 </CardContent>
               </Card>
             </div>

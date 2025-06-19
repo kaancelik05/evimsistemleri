@@ -28,7 +28,7 @@ const CtaSection = dynamic(() => import('@/components/home/cta-section').then(mo
 
 export const metadata: Metadata = {
   title: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı | Türkiye\'nin En Güvenilir Platformu',
-  description: 'Türkiye\'nin en güvenilir faizsiz finansman platformu Evim Sistemleri. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın. 10.000+ mutlu müşteri, %98 memnuniyet oranı. Şeffaf, güvenli ve hızlı çözümler.',
+  description: 'Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu Evim Sistemleri. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın. Şeffaf, güvenli ve hızlı çözümler.',
   keywords: [
     'evim sistemleri',
     'faizsiz finansman',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı',
-    description: 'Türkiye\'nin en güvenilir faizsiz finansman platformu. 10.000+ mutlu müşteri ile hayalinizdeki eve veya arabaya kavuşun.',
+    description: 'Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu. Hayalinizdeki eve veya arabaya kavuşun.',
     images: ['/og-home.jpg'],
   },
   alternates: {
@@ -62,7 +62,7 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <Badge className="mb-4 bg-blue-500/20 text-blue-100 border-blue-400/30">
-              Güvenilir Finansman Çözümleri
+              Güvenilir Finansman Hesaplama
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
               Evim Sistemleri ile
@@ -70,7 +70,7 @@ export default function HomePage() {
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
               Modern, şeffaf ve güvenilir faizsiz finansman sistemleri ile ev ve araba sahibi olmanın en kolay yolu. 
-              Türkiye'nin en güvenilir platformunda 10.000+ mutlu müşteri.
+              Bütçenize göre ödeme planınızı anında hesaplayın. Finansmana erişim tarihinizi öğrenin. Karşılaştırarak en mantıklı yöntemi seçin.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-blue-50 border-0">

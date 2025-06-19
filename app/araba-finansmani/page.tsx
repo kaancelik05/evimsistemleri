@@ -63,8 +63,8 @@ export default function ArabaFinansmanPage() {
             <Card>
               <CardContent className="p-6 text-center">
                 <Zap className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Hızlı Onay</h3>
-                <p className="text-gray-600">Araba finansmanında hızlı değerlendirme</p>
+                <h3 className="text-lg font-semibold mb-2">Hızlı Hesaplama</h3>
+                <p className="text-gray-600">Araba finansmanında hızlı hesaplama ve karşılaştırma</p>
               </CardContent>
             </Card>
             <Card>

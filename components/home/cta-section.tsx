@@ -11,7 +11,7 @@ export function CtaSection() {
         </h2>
         <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
           Hemen hesaplama yapın ve size özel ödeme planınızı görün. Türkiye'nin
-          en güvenilir faizsiz finansman platformu.
+          en güvenilir faizsiz finansman hesaplama platformu.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button

@@ -44,11 +44,10 @@ export function HowItWorksSection() {
               3
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Başvuru Yapın
+              Karşılaştırın
             </h3>
             <p className="text-gray-600">
-              Uygun planı seçtikten sonra başvurunuzu tamamlayın ve onay
-              sürecini başlatın. Hızlı değerlendirme süreci.
+              En uygun ödeme koşulları ve finansman erişim tarihlerini karşılaştırın.
             </p>
           </div>
         </div>

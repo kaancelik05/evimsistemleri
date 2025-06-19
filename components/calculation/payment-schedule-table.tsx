@@ -34,9 +34,11 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
       case 'accessible':
         return <Badge variant="default" className="bg-green-100 text-green-800">Erişilebilir</Badge>
       case 'lucky':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Şanslı</Badge>
+        return <Badge variant="default" className="bg-green-100 text-green-800">Şanslı Çekiliş</Badge>
       case 'unlucky':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Şanssız</Badge>
+        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Şanssız Çekiliş</Badge>
+      case 'financing_obtained':
+        return <Badge variant="outline" className="bg-blue-100 text-blue-800">Finansman Alındı</Badge>
       default:
         return <Badge variant="secondary">Bilinmiyor</Badge>
     }
@@ -53,6 +55,8 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
         return 'bg-green-50 border-l-4 border-l-green-500'
       case 'unlucky':
         return 'bg-yellow-50 border-l-4 border-l-yellow-500'
+      case 'financing_obtained':
+        return 'bg-blue-50 border-l-4 border-l-blue-500'
       default:
         return ''
     }
@@ -221,21 +225,25 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-red-500 rounded"></div>
-                <span>Erişim Yok: İlk 5 ay finansmana erişim yoktur</span>
+                <span>Erişim Yok: Henüz finansmana erişim hakkı kazanılmadı</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-green-500 rounded"></div>
-                <span>Erişilebilir: Finansmana erişim sağlanabilir</span>
+                <span>Erişilebilir: Bu ay finansmana erişim sağlanabilir</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                <span>Finansman Alındı: Finansman kullanılmıştır</span>
               </div>
               {financingType === 'cekilisli' && (
                 <>
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-green-500 rounded"></div>
-                    <span>Şanslı: Çekilişte şanslı çıktınız</span>
+                    <span>Şanslı Çekiliş: Çekilişe dahil olduğunuz dönem</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 bg-yellow-500 rounded"></div>
-                    <span>Şanssız: Çekilişte şanssız çıktınız</span>
+                    <span>Şanssız Çekiliş: Çekiliş dönemi sona ermiştir</span>
                   </div>
                 </>
               )}

@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı',
     short_name: 'Evim Sistemleri',
-    description: 'Türkiye\'nin en güvenilir faizsiz finansman platformu Evim Sistemleri. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın. 10.000+ mutlu müşteri.',
+    description: 'Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu Evim Sistemleri. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
