@@ -65,7 +65,7 @@ export default function HomePage() {
               variant="secondary"
               className="mb-4 text-sm font-medium px-4 py-2"
             >
-              🎉 Türkiye'nin #1 Faizsiz Finansman Platformu
+              🎉 Türkiye'nin #1 Faizsiz Finansman Hesaplama Platformu
             </Badge>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6">
               Hayalinizdeki Eve
