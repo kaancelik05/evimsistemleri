@@ -1,41 +1,58 @@
-
-import Image from 'next/image'
-import Link from 'next/link'
-import { Calculator, Home, Car, TrendingUp, Users, Award, Shield, Clock } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Calculator,
+  Home,
+  Car,
+  TrendingUp,
+  Users,
+  Award,
+  Shield,
+  Clock,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function HomePage() {
   const features = [
     {
       icon: Calculator,
       title: "Gelişmiş Hesaplama",
-      description: "Yapay zeka destekli algoritma ile en doğru finansman hesaplamaları"
+      description:
+        "Yapay zeka destekli algoritma ile en doğru finansman hesaplamaları",
     },
     {
       icon: Shield,
       title: "100% Güvenli",
-      description: "Verileriniz şifrelenmiş olarak korunur, hiçbir bilgi saklanmaz"
+      description:
+        "Verileriniz şifrelenmiş olarak korunur, hiçbir bilgi saklanmaz",
     },
     {
       icon: Clock,
       title: "Anında Sonuç",
-      description: "Saniyeler içinde detaylı ödeme planınızı görüntüleyin"
+      description: "Saniyeler içinde detaylı ödeme planınızı görüntüleyin",
     },
     {
       icon: TrendingUp,
       title: "Optimize Edilmiş",
-      description: "En uygun ödeme seçeneklerini akıllı algoritma ile belirleyin"
-    }
-  ]
+      description:
+        "En uygun ödeme seçeneklerini akıllı algoritma ile belirleyin",
+    },
+  ];
 
   const stats = [
     { number: "50,000+", label: "Mutlu Kullanıcı" },
     { number: "₺2.5M+", label: "Hesaplanan Tutar" },
     { number: "99.9%", label: "Doğruluk Oranı" },
-    { number: "24/7", label: "Kesintisiz Hizmet" }
-  ]
+    { number: "24/7", label: "Kesintisiz Hizmet" },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -44,25 +61,40 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
           <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4 text-sm font-medium px-4 py-2">
+            <Badge
+              variant="secondary"
+              className="mb-4 text-sm font-medium px-4 py-2"
+            >
               🎉 Türkiye'nin #1 Faizsiz Finansman Platformu
             </Badge>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6">
               Hayalinizdeki Eve
               <br />
-              <span className="text-blue-600 dark:text-blue-400">Faizsiz</span> Sahip Olun
+              <span className="text-blue-600 dark:text-blue-400">
+                Faizsiz
+              </span>{" "}
+              Sahip Olun
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-              İslami prensiplere uygun, şeffaf ve güvenilir finansman çözümleri ile ev ve araba sahibi olmanın en kolay yolu
+              İslami prensiplere uygun, şeffaf ve güvenilir finansman çözümleri
+              ile ev ve araba sahibi olmanın en kolay yolu
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button asChild size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <Button
+                asChild
+                size="lg"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
                 <Link href="/ev-finansmani">
                   <Home className="mr-2 h-5 w-5" />
                   Ev Finansmanı Hesapla
                 </Link>
               </Button>
-              <Button asChild size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <Button
+                asChild
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
                 <Link href="/araba-finansmani">
                   <Car className="mr-2 h-5 w-5" />
                   Araba Finansmanı Hesapla
@@ -94,16 +126,23 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              Neden <span className="text-blue-600 dark:text-blue-400">Evim Sistemleri?</span>
+              Neden{" "}
+              <span className="text-blue-600 dark:text-blue-400">
+                Evim Sistemleri?
+              </span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Modern teknoloji ile geleneksel değerleri buluşturan, kullanıcı odaklı finansman çözümleri
+              Modern teknoloji ile geleneksel değerleri buluşturan, kullanıcı
+              odaklı finansman çözümleri
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="group hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-0 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
+              <Card
+                key={index}
+                className="group hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-0 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900"
+              >
                 <CardHeader className="text-center pb-4">
                   <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <feature.icon className="h-8 w-8 text-white" />
@@ -128,7 +167,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-              Nasıl <span className="text-blue-600 dark:text-blue-400">Çalışır?</span>
+              Nasıl{" "}
+              <span className="text-blue-600 dark:text-blue-400">Çalışır?</span>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               3 basit adımda hayalinizdeki eve sahip olun
@@ -140,18 +180,21 @@ export default function HomePage() {
               {
                 step: "01",
                 title: "Bilgileri Girin",
-                description: "Ev fiyatı, peşinat miktarı ve vade süresini belirleyin"
+                description:
+                  "Ev fiyatı, peşinat miktarı ve vade süresini belirleyin",
               },
               {
-                step: "02", 
+                step: "02",
                 title: "Hesaplayın",
-                description: "Yapay zeka algoritması en uygun ödeme planını oluşturur"
+                description:
+                  "Yapay zeka algoritması en uygun ödeme planını oluşturur",
               },
               {
                 step: "03",
                 title: "Karar Verin",
-                description: "Detaylı raporu inceleyin ve finansman kararınızı verin"
-              }
+                description:
+                  "Detaylı raporu inceleyin ve finansman kararınızı verin",
+              },
             ].map((item, index) => (
               <div key={index} className="relative text-center group">
                 <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
@@ -186,16 +229,27 @@ export default function HomePage() {
             Hayalinizdeki Ev Artık Çok Yakın!
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            Binlerce kişinin güvendiği platformumuzla, faizsiz finansman hesaplamalarınızı hemen yapın
+            Binlerce kişinin güvendiği platformumuzla, faizsiz finansman
+            hesaplamalarınızı hemen yapın
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <Button
+              asChild
+              size="lg"
+              variant="secondary"
+              className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
               <Link href="/ev-finansmani">
                 <Home className="mr-2 h-5 w-5" />
                 Ev Finansmanı
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-6 text-lg font-semibold rounded-xl transition-all duration-300 [&>a]:text-white [&>a:hover]:text-blue-600">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            >
               <Link href="/araba-finansmani">
                 <Car className="mr-2 h-5 w-5" />
                 Araba Finansmanı
@@ -205,5 +259,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
