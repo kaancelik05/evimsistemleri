@@ -31,7 +31,7 @@ export function exportToPDF(
   // Tablo verileri
   const tableData = result.schedule.map(item => [
     item.monthNumber,
-    formatDate(item.paymentDate),
+    formatDate(new Date(item.paymentDate)),
     formatCurrency(item.paymentAmount),
     formatCurrency(item.remainingBalance),
     item.canAccessFinancing ? 'Evet' : 'Hayır',
@@ -72,7 +72,7 @@ export function exportToExcel(
   // Ödeme planı verileri
   const scheduleData = result.schedule.map(item => [
     item.monthNumber,
-    formatDate(item.paymentDate),
+    formatDate(new Date(item.paymentDate)),
     item.paymentAmount,
     item.remainingBalance,
     item.cumulativePayment,
