@@ -191,14 +191,14 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
               <Link href="/ev-finansmani">
-                <Calculator className="mr-2 h-5 w-5" />
-                Hemen Hesapla
+                <Home className="mr-2 h-5 w-5" />
+                Ev Finansmanı
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-6 text-lg font-semibold rounded-xl transition-all duration-300">
-              <Link href="/hakkimizda">
-                <Users className="mr-2 h-5 w-5" />
-                Hakkımızda
+              <Link href="/araba-finansmani">
+                <Car className="mr-2 h-5 w-5" />
+                Araba Finansmanı
               </Link>
             </Button>
           </div>
