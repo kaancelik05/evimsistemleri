@@ -23,9 +23,9 @@ export function Footer() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main footer content */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="py-16 grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
           {/* Brand section */}
-          <div className="lg:col-span-1">
+          <div className="md:col-span-1">
             <Link href="/" className="flex items-center space-x-3 mb-6 group">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <Calculator className="h-5 w-5 text-white" />
@@ -34,7 +34,7 @@ export function Footer() {
                 Evim Sistemleri
               </span>
             </Link>
-            <p className="text-gray-300 leading-relaxed mb-6">
+            <p className="text-gray-300 leading-relaxed mb-6 text-sm">
               Türkiye'nin en güvenilir faizsiz finansman hesaplama platformu.
               Modern, şeffaf ve güvenilir çözümlerle hayallerinize ulaşın.
             </p>
@@ -47,7 +47,7 @@ export function Footer() {
           </div>
 
           {/* Services */}
-          <div>
+          <div className="md:col-span-1">
             <h3 className="text-lg font-semibold mb-6 text-white">
               Hizmetlerimiz
             </h3>
@@ -71,7 +71,7 @@ export function Footer() {
           </div>
 
           {/* Company */}
-          <div>
+          <div className="md:col-span-1">
             <h3 className="text-lg font-semibold mb-6 text-white">Kurumsal</h3>
             <ul className="space-y-3">
               {[
