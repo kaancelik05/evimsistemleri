@@ -99,7 +99,6 @@ export function Footer() {
             </h3>
             <div className="space-y-4">
               {[
-                { number: "50K+", label: "Mutlu Kullanıcı" },
                 { number: "₺2.5M+", label: "Hesaplanan Tutar" },
                 { number: "%99.9", label: "Doğruluk Oranı" },
               ].map((stat) => (
