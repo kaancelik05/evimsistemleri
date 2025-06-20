@@ -17,7 +17,6 @@ import {
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Image from 'next/image'
-import logo from '@/app/assets/evim-sistemleri-logo.png'
 
 const navigation = [
   { name: "Anasayfa", href: "/", icon: Home },
@@ -38,7 +37,7 @@ export function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 space-y-1">
-            <Image src={logo} alt="Evim Sistemleri" width={32} height={32} />
+            <Image src="/evim-sistemleri-logo.png" alt="Evim Sistemleri" width={32} height={32} />
             <span className="text-lg font-bold text-sky-800">
               Evim Sistemleri
             </span>
