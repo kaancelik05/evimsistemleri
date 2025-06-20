@@ -9,9 +9,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react']
   },
-  async generateBuildId() {
-    return 'evim-sistemleri-v1.0.0'
-  },
   webpack: (config, { isServer }) => {
     config.ignoreWarnings = [
       {
