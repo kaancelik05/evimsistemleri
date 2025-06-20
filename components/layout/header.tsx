@@ -39,7 +39,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 space-y-1">
             <Image src={logo} alt="Evim Sistemleri" width={32} height={32} />
-            <span className="text-xl font-bold text-sky-800">
+            <span className="text-lg font-bold text-sky-800">
               Evim Sistemleri
             </span>
           </Link>
