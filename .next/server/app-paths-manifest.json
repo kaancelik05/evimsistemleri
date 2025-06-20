@@ -1,7 +1,10 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/hakkimizda/page": "app/hakkimizda/page.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/blog/page": "app/blog/page.js",
-  "/iletisim/page": "app/iletisim/page.js",
-  "/ev-finansmani/page": "app/ev-finansmani/page.js"
+  "/ev-finansmani/page": "app/ev-finansmani/page.js",
+  "/hakkimizda/page": "app/hakkimizda/page.js",
+  "/iletisim/page": "app/iletisim/page.js"
 }
