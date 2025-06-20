@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import Image from 'next/image'
+import logo from '@/app/assets/evim-sistemleri-logo.png'
 
 const navigation = [
   { name: "Anasayfa", href: "/", icon: Home },
@@ -35,12 +37,14 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <Calculator className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold text-gray-900">
+          <Link href="/" className="flex items-center space-x-2 space-y-1">
+            <Image src={logo} alt="Evim Sistemleri" width={32} height={32} />
+            <span className="text-xl font-bold text-sky-800">
               Evim Sistemleri
             </span>
           </Link>
+
+          
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
