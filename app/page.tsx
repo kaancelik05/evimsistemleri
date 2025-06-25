@@ -68,7 +68,7 @@ export default function HomePage() {
               🎉 Türkiye'nin #1 Faizsiz Finansman Hesaplama Platformu
             </Badge>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6">
-              Hayalinizdeki Eve
+              Hayalinizdeki Yatırıma
               <br />
               <span className="text-blue-600 dark:text-blue-400">
                 Faizsiz
@@ -211,7 +211,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Hayalinizdeki Ev Artık Çok Yakın!
+            Hayalinizdeki Yatırım Artık Çok Yakın!
           </h2>
           <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
             Binlerce kişinin güvendiği platformumuzla, faizsiz finansman
