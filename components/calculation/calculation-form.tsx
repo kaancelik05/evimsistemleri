@@ -15,13 +15,21 @@ import { FormData } from '@/lib/types'
 import { validateCalculationParams } from '@/lib/calculations'
 import { AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 
 const formSchema = z.object({
   financingType: z.enum(['cekilisli', 'cekilissiz']),
   financingAmount: z.number().min(50000, 'Minimum 50.000 TL').max(5000000, 'Maksimum 5.000.000 TL'),
   downPayment: z.number().min(0, 'Negatif olamaz'),
   organizationFeeRate: z.number().min(5, 'Minimum %5').max(10, 'Maksimum %10'),
-  monthlyPayment: z.number().min(1000, 'Minimum 1.000 TL')
+  monthlyPayment: z.number().min(1000, 'Minimum 1.000 TL'),
+  annualIncreaseRate: z.number().optional()
 })
 
 interface CalculationFormProps {
@@ -46,7 +54,8 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
       financingAmount: 500000,
       downPayment: 0,
       organizationFeeRate: 7,
-      monthlyPayment: 5000
+      monthlyPayment: 5000,
+      annualIncreaseRate: 0
     }
   })
 
@@ -219,6 +228,32 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
                 <span>{errors.monthlyPayment.message}</span>
               </p>
             )}
+          </div>
+
+          {/* Aylık Taksit Artış Oranı */}
+          <div className="space-y-2">
+            <Label htmlFor="annualIncreaseRate" className="text-base font-medium">
+              Aylık Taksitim Yılda Yüzde Kaç Artsın? (İsteğe Bağlı)
+            </Label>
+            <Select
+              value={watchedValues.annualIncreaseRate?.toString() || '0'}
+              onValueChange={(value) => setValue('annualIncreaseRate', Number(value))}
+            >
+              <SelectTrigger id="annualIncreaseRate">
+                <SelectValue placeholder="Artış oranı seçin..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0">Artış Yok</SelectItem>
+                <SelectItem value="5">%5</SelectItem>
+                <SelectItem value="10">%10</SelectItem>
+                <SelectItem value="15">%15</SelectItem>
+                <SelectItem value="20">%20</SelectItem>
+                <SelectItem value="25">%25</SelectItem>
+                <SelectItem value="30">%30</SelectItem>
+                <SelectItem value="35">%35</SelectItem>
+                <SelectItem value="40">%40</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Hesapla Butonu */}

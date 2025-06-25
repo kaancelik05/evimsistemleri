@@ -5,19 +5,46 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { CalculationResult } from '@/lib/types'
+import { CalculationResult, FormData } from '@/lib/types'
 import { formatCurrency, formatDate } from '@/lib/calculations'
 import { exportToPDF, exportToExcel } from '@/lib/export-utils'
-import { Download, FileText, Calendar, TrendingUp, Clock, CheckCircle } from 'lucide-react'
+import { Download, FileText, Calendar, TrendingUp, Clock, CheckCircle, PiggyBank, Landmark, Home } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface PaymentScheduleTableProps {
   result: CalculationResult
+  formData: FormData
   calculationType: 'ev' | 'araba'
   financingType: 'cekilisli' | 'cekilissiz'
 }
 
-export function PaymentScheduleTable({ result, calculationType, financingType }: PaymentScheduleTableProps) {
+const InfoCard = ({ icon, title, value }: { icon: React.ReactNode, title: string, value: string | number }) => (
+  <Card>
+    <CardContent className="p-4">
+      <div className="flex items-center space-x-3">
+        <div className="bg-slate-100 p-2 rounded-lg">{icon}</div>
+        <div>
+          <p className="text-sm text-gray-600">{title}</p>
+          <p className="text-lg font-bold text-gray-900">{value}</p>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
+
+const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
+    <div className='space-y-4'>
+        <div className="flex items-center space-x-2">
+            {icon}
+            <h3 className="text-xl font-bold text-gray-800">{title}</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {children}
+        </div>
+    </div>
+)
+
+export function PaymentScheduleTable({ result, formData, calculationType, financingType }: PaymentScheduleTableProps) {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 12
   const totalPages = Math.ceil(result.schedule.length / itemsPerPage)
@@ -27,7 +54,27 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
     currentPage * itemsPerPage
   )
 
-  const getStatusBadge = (status: string, canAccess: boolean) => {
+  // --- Bank Loan Calculation ---
+  const calculateBankLoanTotal = (principal: number, monthlyRate: number, months: number) => {
+    if (months === 0) return principal;
+    const r = monthlyRate;
+    const n = months;
+    const monthlyPayment = principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    return monthlyPayment * n;
+  }
+  const bankLoanTotalPayment = calculateBankLoanTotal(formData.financingAmount, 0.03, result.installmentCount);
+
+  // --- Piggy Bank Calculation ---
+  // This calculation is no longer needed as per the new requirement.
+  // const piggyBankMonths = Math.ceil(formData.financingAmount / formData.monthlyPayment);
+
+  const evimSistemiErisimAyi = result.accessibleMonth
+    ? financingType === 'cekilisli'
+      ? `6 - ${result.accessibleMonth}. ay`
+      : `${result.accessibleMonth}. ay`
+    : 'Belirsiz';
+
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case 'waiting':
         return <Badge variant="secondary" className="bg-red-100 text-red-800">Erişim Yok</Badge>
@@ -44,83 +91,37 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
     }
   }
 
-  const getRowClassName = (status: string, monthNumber: number) => {
-    if (monthNumber <= 5) {
-      return 'bg-red-50 border-l-4 border-l-red-500'
+  const getRowClassName = (status: string) => {
+    if (status === 'accessible') {
+      return 'bg-green-50 border-l-4 border-l-green-500'
     }
-    
-    switch (status) {
-      case 'accessible':
-      case 'lucky':
-        return 'bg-green-50 border-l-4 border-l-green-500'
-      case 'unlucky':
-        return 'bg-yellow-50 border-l-4 border-l-yellow-500'
-      case 'financing_obtained':
-        return 'bg-blue-50 border-l-4 border-l-blue-500'
-      default:
-        return ''
-    }
+    return ''
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Özet Kartları */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="h-5 w-5 text-blue-600" />
-              <div>
-                <p className="text-sm text-gray-600">Toplam Ödeme</p>
-                <p className="text-lg font-bold text-gray-900">
-                  {formatCurrency(result.totalPayment)}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <Calendar className="h-5 w-5 text-green-600" />
-              <div>
-                <p className="text-sm text-gray-600">Taksit Sayısı</p>
-                <p className="text-lg font-bold text-gray-900">
-                  {result.installmentCount} ay
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <FileText className="h-5 w-5 text-purple-600" />
-              <div>
-                <p className="text-sm text-gray-600">Organizasyon Ücreti</p>
-                <p className="text-lg font-bold text-gray-900">
-                  {formatCurrency(result.organizationFee)}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="h-5 w-5 text-orange-600" />
-              <div>
-                <p className="text-sm text-gray-600">Erişim Ayı</p>
-                <p className="text-lg font-bold text-gray-900">
-                  {result.accessibleMonth ? `${result.accessibleMonth}. ay` : 'Belirsiz'}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="space-y-8">
+        <Section title="Evim Sistemi ile" icon={<Home className="h-6 w-6 text-blue-600" />}>
+            <InfoCard icon={<TrendingUp className="h-5 w-5 text-blue-600" />} title="Toplam Ödeme" value={formatCurrency(result.totalPayment)} />
+            <InfoCard icon={<Calendar className="h-5 w-5 text-green-600" />} title="Taksit Sayısı" value={`${result.installmentCount} ay`} />
+            <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Organizasyon Ücreti" value={formatCurrency(result.organizationFee)} />
+            <InfoCard icon={<CheckCircle className="h-5 w-5 text-orange-600" />} title="Erişim Ayı" value={evimSistemiErisimAyi} />
+        </Section>
+        
+        <Section title="Banka Kredisi ile" icon={<Landmark className="h-6 w-6 text-red-600" />}>
+            <InfoCard icon={<TrendingUp className="h-5 w-5 text-red-600" />} title="Toplam Ödeme" value={formatCurrency(bankLoanTotalPayment)} />
+            <InfoCard icon={<Calendar className="h-5 w-5 text-green-600" />} title="Taksit Sayısı" value={`${result.installmentCount} ay`} />
+            <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Organizasyon Ücreti" value="Yok" />
+            <InfoCard icon={<CheckCircle className="h-5 w-5 text-orange-600" />} title="Erişim Ayı" value="1. ay" />
+        </Section>
+        
+        <Section title="Kumbara Biriktirme ile" icon={<PiggyBank className="h-6 w-6 text-green-600" />}>
+            <InfoCard icon={<TrendingUp className="h-5 w-5 text-green-600" />} title="Toplam Ödeme" value={formatCurrency(formData.financingAmount)} />
+            <InfoCard icon={<Calendar className="h-5 w-5 text-green-600" />} title="Taksit Sayısı" value={`${result.installmentCount} ay`} />
+            <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Organizasyon Ücreti" value="Yok" />
+            <InfoCard icon={<CheckCircle className="h-5 w-5 text-orange-600" />} title="Erişim Ayı" value={`${result.installmentCount}. ay`} />
+        </Section>
       </div>
 
       {/* Ödeme Tablosu */}
@@ -168,7 +169,7 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
                 {paginatedSchedule.map((item) => (
                   <TableRow
                     key={item.monthNumber}
-                    className={cn(getRowClassName(item.status, item.monthNumber))}
+                    className={cn(getRowClassName(item.status))}
                   >
                     <TableCell className="font-medium">
                       {item.monthNumber}
@@ -186,7 +187,7 @@ export function PaymentScheduleTable({ result, calculationType, financingType }:
                       {formatCurrency(item.remainingBalance)}
                     </TableCell>
                     <TableCell className="text-center">
-                      {getStatusBadge(item.status, item.canAccessFinancing)}
+                      {getStatusBadge(item.status)}
                     </TableCell>
                   </TableRow>
                 ))}

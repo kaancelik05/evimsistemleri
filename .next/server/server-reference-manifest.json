@@ -1,5 +1,14 @@
 {
-  "node": {},
+  "node": {
+    "d23959e9e94495bbf59e1adc2b8b2340ac19f691": {
+      "workers": {
+        "app/iletisim/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fkaancelik%2FDesktop%2Fevimsistemleri%2Fapp%2Filetisim%2F_actions.ts%22%2C%5B%22sendContactEmail%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/iletisim/page": "action-browser"
+      }
+    }
+  },
   "edge": {},
   "encryptionKey": "EnB58rozg9/yXN1A2vTuX/hLnWbHWO5A2ftkV6K8nQE="
 }

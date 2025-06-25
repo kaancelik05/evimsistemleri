@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useState } from 'react'
@@ -10,10 +9,12 @@ import { Card, CardContent } from '@/components/ui/card'
 
 export default function EvFinansmanPage() {
   const [result, setResult] = useState<CalculationResult | null>(null)
+  const [formData, setFormData] = useState<FormData | null>(null)
   const [loading, setLoading] = useState(false)
 
   const handleCalculate = (data: FormData) => {
     setLoading(true)
+    setFormData(data)
     
     // Create a new worker instance
     const worker = new Worker(new URL('@/workers/calculation.worker.ts', import.meta.url))
@@ -105,10 +106,10 @@ export default function EvFinansmanPage() {
           </div>
 
           {/* Main Content */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
+          <div className="space-y-12">
             {/* Calculation Form */}
-            <div className="space-y-6">
-              <div className="text-center xl:text-left">
+            <div className="space-y-6 max-w-4xl mx-auto">
+              <div className="text-center">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">Hesaplamanızı Başlatın</h2>
                 <p className="text-gray-600 text-lg">Aşağıdaki bilgileri doldurun ve size özel ödeme planınızı görün</p>
               </div>
@@ -119,19 +120,32 @@ export default function EvFinansmanPage() {
               />
             </div>
 
+            {/* Results Separator */}
+            <div className="relative py-4">
+              <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-slate-50 px-2 text-gray-500">
+                  <Sparkles className="h-5 w-5 text-gray-400" />
+                </span>
+              </div>
+            </div>
+
             {/* Results */}
             <div className="space-y-6">
-              <div className="text-center xl:text-left">
+              <div className="text-center">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">Ödeme Planınız</h2>
                 <p className="text-gray-600 text-lg">Hesaplama sonucunuz burada görünecek</p>
               </div>
               
-              {result ? (
+              {result && formData ? (
                 <div className="space-y-4">
                   <PaymentScheduleTable
                     result={result}
+                    formData={formData}
                     calculationType="ev"
-                    financingType={result.schedule[0]?.status === 'accessible' ? 'cekilissiz' : 'cekilisli'}
+                    financingType={formData.financingType}
                   />
                 </div>
               ) : (
@@ -144,7 +158,7 @@ export default function EvFinansmanPage() {
                       Ödeme Planınızı Görün
                     </h3>
                     <p className="text-gray-600 text-lg leading-relaxed max-w-md mx-auto">
-                      Soldaki formu doldurarak detaylı ödeme planınızı hesaplayın ve hayalinizdeki eve kavuşun
+                      Yukarıdaki formu doldurarak detaylı ödeme planınızı hesaplayın ve hayalinizdeki eve kavuşun
                     </p>
                     <div className="mt-8 flex items-center justify-center space-x-2">
                       <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>

@@ -5,6 +5,7 @@ export interface CalculationParams {
   monthlyPayment: number
   financingType: 'cekilisli' | 'cekilissiz'
   calculationType: 'ev' | 'araba'
+  annualIncreaseRate?: number
 }
 
 export interface PaymentScheduleItem {
@@ -33,6 +34,7 @@ export interface FormData {
   downPayment: number
   organizationFeeRate: number
   monthlyPayment: number
+  annualIncreaseRate?: number
 }
 
 // Blog types moved to lib/blog.ts for better organization

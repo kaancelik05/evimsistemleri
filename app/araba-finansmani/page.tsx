@@ -9,10 +9,12 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function ArabaFinansmanPage() {
   const [result, setResult] = useState<CalculationResult | null>(null);
+  const [formData, setFormData] = useState<FormData | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleCalculate = (data: FormData) => {
     setLoading(true);
+    setFormData(data);
 
     // Create a new worker instance
     const worker = new Worker(
@@ -128,61 +130,67 @@ export default function ArabaFinansmanPage() {
             </Card>
           </div>
 
-          {/* Main Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Main Content Area */}
+          <div className="space-y-12">
             {/* Calculation Form */}
-            <div className="order-2 lg:order-1">
-              <div className="sticky top-6">
-                <CalculationForm
-                  calculationType="araba"
-                  onCalculate={handleCalculate}
-                  loading={loading}
-                />
+            <div className="space-y-6 max-w-4xl mx-auto">
+              <div className="text-center">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">Hesaplamanızı Başlatın</h2>
+                <p className="text-gray-600 text-lg">Aşağıdaki bilgileri doldurun ve size özel ödeme planınızı görün</p>
+              </div>
+              <CalculationForm
+                calculationType="araba"
+                onCalculate={handleCalculate}
+                loading={loading}
+              />
+            </div>
+
+            {/* Results Separator */}
+            <div className="relative py-4">
+              <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div className="w-full border-t border-gray-200" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-slate-50 px-2 text-gray-500">
+                  <Sparkles className="h-5 w-5 text-gray-400" />
+                </span>
               </div>
             </div>
 
-            {/* Results Section */}
-            <div className="order-1 lg:order-2">
-              {result ? (
-                <div className="space-y-6">
+            {/* Results */}
+            <div className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">Ödeme Planınız</h2>
+                <p className="text-gray-600 text-lg">Hesaplama sonucunuz burada görünecek</p>
+              </div>
+              
+              {result && formData ? (
+                <div className="space-y-4">
                   <PaymentScheduleTable
                     result={result}
+                    formData={formData}
                     calculationType="araba"
-                    financingType={
-                      result.schedule[0]?.status === "accessible"
-                        ? "cekilissiz"
-                        : "cekilisli"
-                    }
+                    financingType={formData.financingType}
                   />
                 </div>
               ) : (
-                <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-gray-50/50 backdrop-blur-sm">
-                  <CardContent className="p-12 text-center">
-                    <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
-                      <Car className="h-12 w-12 text-emerald-600" />
-                    </div>
-
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      Ödeme Planınızı Keşfedin
-                    </h3>
-
-                    <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                      Formu doldurarak hayalinizdeki araba için detaylı ödeme
-                      planınızı anında hesaplayın ve en uygun finansman
-                      seçeneğini bulun.
-                    </p>
-
-                    <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full mr-2"></div>
-                        <span>Şeffaf Hesaplama</span>
+                <Card className="border-0 bg-gradient-to-br from-gray-50 to-gray-100/50 backdrop-blur-sm">
+                  <CardContent className="text-center py-16 px-8">
+                      <div className="w-24 h-24 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                        <Car className="h-12 w-12 text-emerald-600" />
                       </div>
-                      <div className="flex items-center">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                        <span>Detaylı Analiz</span>
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                        Ödeme Planınızı Görün
+                      </h3>
+                      <p className="text-gray-600 max-w-md mx-auto text-lg leading-relaxed">
+                       Yukarıdaki formu doldurarak detaylı ödeme planınızı hesaplayın ve hayalinizdeki arabaya kavuşun
+                      </p>
+                      <div className="mt-8 flex items-center justify-center space-x-2">
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
                       </div>
-                    </div>
-                  </CardContent>
+                    </CardContent>
                 </Card>
               )}
             </div>
