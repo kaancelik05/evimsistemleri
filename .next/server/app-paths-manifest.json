@@ -1,4 +1,9 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/ev-finansmani/page": "app/ev-finansmani/page.js"
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/blog/page": "app/blog/page.js",
+  "/ev-finansmani/page": "app/ev-finansmani/page.js",
+  "/blog/[slug]/page": "app/blog/[slug]/page.js",
+  "/blog/kategori/[slug]/page": "app/blog/kategori/[slug]/page.js"
 }

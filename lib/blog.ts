@@ -194,6 +194,33 @@ export async function getBlogCategories(): Promise<BlogCategory[]> {
   }
 }
 
+export async function getCategoryBySlug(slug: string): Promise<BlogCategory | null> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured, returning null for blog category');
+    return null;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('blog_categories')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      if (error.code !== 'PGRST116') { // Ignore 'not found' error
+        console.error('Blog category fetch error:', error);
+      }
+      return null;
+    }
+
+    return data as BlogCategory;
+  } catch (error) {
+    console.error('Blog category fetch error:', error);
+    return null;
+  }
+}
+
 // İlgili yazıları getir
 export async function getRelatedPosts(
   currentPostId: string,
