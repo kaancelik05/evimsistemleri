@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     images: ['/og-iletisim.jpg'],
   },
   alternates: {
-    canonical: 'https://evimsistemler.com/iletisim',
+    canonical: 'https://evimsistemleri.com/iletisim',
   },
 }
 

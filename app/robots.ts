@@ -19,7 +19,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/', '/test-supabase'],
       },
     ],
-    sitemap: 'https://evimsistemler.com/sitemap.xml',
-    host: 'https://evimsistemler.com',
+    sitemap: 'https://evimsistemleri.com/sitemap.xml',
+    host: 'https://evimsistemleri.com',
   }
 }

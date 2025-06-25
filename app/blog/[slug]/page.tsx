@@ -95,7 +95,7 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
         images: post.image_url ? [post.image_url] : ['/twitter-blog-default.jpg'],
       },
       alternates: {
-        canonical: `https://evimsistemler.com/blog/${post.slug}`,
+        canonical: `https://evimsistemleri.com/blog/${post.slug}`,
       },
       other: {
         'article:author': post.author,
@@ -163,25 +163,25 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     "@type": "Article",
     "headline": post.title,
     "description": post.excerpt || post.content.substring(0, 160).replace(/<[^>]*>/g, ''),
-    "image": post.image_url || "https://evimsistemler.com/og-blog-default.jpg",
+    "image": post.image_url || "https://evimsistemleri.com/og-blog-default.jpg",
     "author": {
       "@type": "Person",
       "name": post.author,
-      "url": "https://evimsistemler.com/hakkimizda"
+      "url": "https://evimsistemleri.com/hakkimizda"
     },
     "publisher": {
       "@type": "Organization",
       "name": "Evim Sistemleri",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://evimsistemler.com/logo.png"
+        "url": "https://evimsistemleri.com/logo.png"
       }
     },
     "datePublished": post.created_at,
     "dateModified": post.updated_at,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://evimsistemler.com/blog/${post.slug}`
+      "@id": `https://evimsistemleri.com/blog/${post.slug}`
     },
     "articleSection": post.category?.name || "Finansman",
     "keywords": post.tags?.join(', ') || '',

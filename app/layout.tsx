@@ -13,7 +13,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://evimsistemler.com'),
+  metadataBase: new URL('https://evimsistemleri.com'),
   title: {
     default: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı | Türkiye\'nin En Güvenilir Platformu',
     template: '%s | Evim Sistemleri - Faizsiz Finansman'
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     'çekilişli finansman',
     'çekilişsiz finansman'
   ],
-  authors: [{ name: 'Evim Sistemleri Uzmanları', url: 'https://evimsistemler.com' }],
+  authors: [{ name: 'Evim Sistemleri Uzmanları', url: 'https://evimsistemleri.com' }],
   creator: 'Evim Sistemleri',
   publisher: 'Evim Sistemleri',
   formatDetection: {
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'tr_TR',
-    url: 'https://evimsistemler.com',
+    url: 'https://evimsistemleri.com',
     siteName: 'Evim Sistemleri',
     title: 'Evim Sistemleri - Faizsiz Ev ve Araba Finansmanı Hesaplayıcı',
     description: 'Türkiye\'nin en güvenilir faizsiz finansman hesaplama platformu. Ev ve araba finansmanı hesaplayıcısı ile ödeme planınızı anında hesaplayın.',
@@ -111,9 +111,9 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://evimsistemler.com',
+    canonical: 'https://evimsistemleri.com',
     languages: {
-      'tr-TR': 'https://evimsistemler.com',
+      'tr-TR': 'https://evimsistemleri.com',
     },
   },
   category: 'finance',
@@ -150,9 +150,9 @@ const jsonLd = {
   "@type": "FinancialService",
   "name": "Evim Sistemleri",
   "description": "Türkiye'nin en güvenilir faizsiz finansman hesaplama platformu",
-  "url": "https://evimsistemler.com",
-  "logo": "https://evimsistemler.com/logo.png",
-  "image": "https://evimsistemler.com/og-image.jpg",
+  "url": "https://evimsistemleri.com",
+  "logo": "https://evimsistemleri.com/logo.png",
+  "image": "https://evimsistemleri.com/og-image.jpg",
   "email": "contact@evimsistemleri.com",
   "address": {
     "@type": "PostalAddress",
@@ -162,9 +162,7 @@ const jsonLd = {
     "addressCountry": "TR"
   },
   "sameAs": [
-    "https://twitter.com/evimsistemler",
-    "https://facebook.com/evimsistemler",
-    "https://linkedin.com/company/evimsistemler"
+    "https://x.com/evimsistemleri",
   ],
   "serviceType": "Faizsiz Finansman",
   "areaServed": "Turkey",

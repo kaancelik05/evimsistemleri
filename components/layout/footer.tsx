@@ -40,7 +40,7 @@ export function Footer() {
             </p>
             <div className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
               <Mail className="h-4 w-4" />
-              <a href="mailto:info@evimsistemler.com" className="text-sm">
+              <a href="mailto:contact@evimsistemleri.com" className="text-sm">
                 contact@evimsistemleri.com
               </a>
             </div>

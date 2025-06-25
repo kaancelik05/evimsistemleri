@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     images: ['/og-araba-finansmani.jpg'],
   },
   alternates: {
-    canonical: 'https://evimsistemler.com/araba-finansmani',
+    canonical: 'https://evimsistemleri.com/araba-finansmani',
   },
 }
 

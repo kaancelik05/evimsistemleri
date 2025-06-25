@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     images: ['/og-hakkimizda.jpg'],
   },
   alternates: {
-    canonical: 'https://evimsistemler.com/hakkimizda',
+    canonical: 'https://evimsistemleri.com/hakkimizda',
   },
 }
 
