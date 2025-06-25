@@ -8,7 +8,6 @@ import {
   Calendar, 
   Clock, 
   User,
-  Share2,
   BookOpen,
   TrendingUp,
   Home,
@@ -21,99 +20,6 @@ import { getBlogPost, getRelatedPosts, getBlogPosts, BlogPost } from '@/lib/blog
 import { isSupabaseConfigured } from '@/lib/supabase'
 import type { Metadata } from 'next'
 import { ShareButton } from '@/components/blog/share-button'
-
-const DUMMY_POSTS: Record<string, BlogPost> = {
-  'faizsiz-finansman-avantajlari': {
-    id: 'dummy-1',
-    slug: 'faizsiz-finansman-avantajlari',
-    title: 'Faizsiz Finansmanın Avantajları (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '<h2>Veritabanı Bağlantısı Kurulamadı</h2><p>Bu içeriği görüyorsanız, uygulamanın veritabanı ile bağlantısı kurulamamış demektir. Bu durum genellikle Supabase URL ve anon anahtarının .env.local dosyasında eksik veya yanlış olmasından kaynaklanır.</p><p>Uygulamanın tam olarak çalışması için lütfen yapılandırma adımlarını takip edin.</p>',
-    author: 'Sistem Yöneticisi',
-    category: { id: 'cat-1', name: 'Genel', slug: 'genel', icon: 'BookOpen' },
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: true,
-    published: true,
-    read_time: '1 dk',
-    meta_title: 'Faizsiz Finansman Avantajları',
-    meta_description: 'Veritabanı bağlantısı olmadığında gösterilen yedek içerik.',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  'ev-satin-alirken-dikkat-edilmesi-gerekenler': {
-    id: 'dummy-2',
-    slug: 'ev-satin-alirken-dikkat-edilmesi-gerekenler',
-    title: 'Ev Satın Alırken Dikkat Edilmesi Gerekenler (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '<h2>Veritabanı Bağlantısı Kurulamadı</h2><p>Bu içeriği görüyorsanız, uygulamanın veritabanı ile bağlantısı kurulamamış demektir. Bu durum genellikle Supabase URL ve anon anahtarının .env.local dosyasında eksik veya yanlış olmasından kaynaklanır.</p><p>Uygulamanın tam olarak çalışması için lütfen yapılandırma adımlarını takip edin.</p>',
-    author: 'Sistem Yöneticisi',
-    category: { id: 'cat-2', name: 'Ev Finansmanı', slug: 'ev-finansmani', icon: 'Home' },
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: true,
-    published: true,
-    read_time: '1 dk',
-    meta_title: 'Ev Satın Alırken Dikkat Edilmesi Gerekenler',
-    meta_description: 'Veritabanı bağlantısı olmadığında gösterilen yedek içerik.',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  'araba-finansmaninda-dogru-secim': {
-    id: 'dummy-3',
-    slug: 'araba-finansmaninda-dogru-secim',
-    title: 'Araba Finansmanında Doğru Seçim (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '<h2>Veritabanı Bağlantısı Kurulamadı</h2><p>Bu içeriği görüyorsanız, uygulamanın veritabanı ile bağlantısı kurulamamış demektir. Bu durum genellikle Supabase URL ve anon anahtarının .env.local dosyasında eksik veya yanlış olmasından kaynaklanır.</p><p>Uygulamanın tam olarak çalışması için lütfen yapılandırma adımlarını takip edin.</p>',
-    author: 'Sistem Yöneticisi',
-    category: { id: 'cat-3', name: 'Araba Finansmanı', slug: 'araba-finansmani', icon: 'Car' },
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: true,
-    published: true,
-    read_time: '1 dk',
-    meta_title: 'Araba Finansmanında Doğru Seçim',
-    meta_description: 'Veritabanı bağlantısı olmadığında gösterilen yedek içerik.',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-    'islami-finansman-nedir': {
-    id: 'dummy-4',
-    slug: 'islami-finansman-nedir',
-    title: 'İslami Finansman Nedir? (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '<h2>Veritabanı Bağlantısı Kurulamadı</h2><p>Bu içeriği görüyorsanız, uygulamanın veritabanı ile bağlantısı kurulamamış demektir. Bu durum genellikle Supabase URL ve anon anahtarının .env.local dosyasında eksik veya yanlış olmasından kaynaklanır.</p><p>Uygulamanın tam olarak çalışması için lütfen yapılandırma adımlarını takip edin.</p>',
-    author: 'Sistem Yöneticisi',
-    category: { id: 'cat-4', name: 'İslami Finansman', slug: 'islami-finansman', icon: 'Shield' },
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: true,
-    published: true,
-    read_time: '1 dk',
-    meta_title: 'İslami Finansman Nedir?',
-    meta_description: 'Veritabanı bağlantısı olmadığında gösterilen yedek içerik.',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  'katilim-bankaciligi-rehberi': {
-    id: 'dummy-5',
-    slug: 'katilim-bankaciligi-rehberi',
-    title: 'Katılım Bankacılığı Rehberi (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '<h2>Veritabanı Bağlantısı Kurulamadı</h2><p>Bu içeriği görüyorsanız, uygulamanın veritabanı ile bağlantısı kurulamamış demektir. Bu durum genellikle Supabase URL ve anon anahtarının .env.local dosyasında eksik veya yanlış olmasından kaynaklanır.</p><p>Uygulamanın tam olarak çalışması için lütfen yapılandırma adımlarını takip edin.</p>',
-    author: 'Sistem Yöneticisi',
-    category: { id: 'cat-5', name: 'Bankacılık', slug: 'bankacilik', icon: 'BarChart3' },
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: true,
-    published: true,
-    read_time: '1 dk',
-    meta_title: 'Katılım Bankacılığı Rehberi',
-    meta_description: 'Veritabanı bağlantısı olmadığında gösterilen yedek içerik.',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-};
 
 const iconMap = {
   TrendingUp,
@@ -129,26 +35,14 @@ const iconMap = {
 export async function generateStaticParams() {
   // Supabase konfigürasyonu kontrolü
   if (!isSupabaseConfigured()) {
-    return [
-      { slug: 'faizsiz-finansman-avantajlari' },
-      { slug: 'ev-satin-alirken-dikkat-edilmesi-gerekenler' },
-      { slug: 'araba-finansmaninda-dogru-secim' },
-      { slug: 'islami-finansman-nedir' },
-      { slug: 'katilim-bankaciligi-rehberi' }
-    ]
+    return []
   }
 
   try {
     const result = await getBlogPosts()
     
     if (result.posts.length === 0) {
-      return [
-        { slug: 'faizsiz-finansman-avantajlari' },
-        { slug: 'ev-satin-alirken-dikkat-edilmesi-gerekenler' },
-        { slug: 'araba-finansmaninda-dogru-secim' },
-        { slug: 'islami-finansman-nedir' },
-        { slug: 'katilim-bankaciligi-rehberi' }
-      ]
+      return []
     }
     
     return result.posts.map((post) => ({
@@ -157,13 +51,7 @@ export async function generateStaticParams() {
   } catch (error) {
     console.error('generateStaticParams hatası:', error)
     // Hata durumunda yedek static paths döndür
-    return [
-      { slug: 'faizsiz-finansman-avantajlari' },
-      { slug: 'ev-satin-alirken-dikkat-edilmesi-gerekenler' },
-      { slug: 'araba-finansmaninda-dogru-secim' },
-      { slug: 'islami-finansman-nedir' },
-      { slug: 'katilim-bankaciligi-rehberi' }
-    ]
+    return []
   }
 }
 
@@ -177,10 +65,6 @@ export async function generateMetadata({ params }: BlogDetailPageProps): Promise
   let post: BlogPost | null = null;
   try {
     post = await getBlogPost(params.slug)
-
-    if (!post && !isSupabaseConfigured()) {
-      post = DUMMY_POSTS[params.slug];
-    }
 
     if (!post) {
       return {
@@ -255,20 +139,11 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   }
 
   if (!post) {
-    if (!isSupabaseConfigured()) {
-      const fallbackPost = DUMMY_POSTS[params.slug]
-      if (fallbackPost) {
-        post = fallbackPost
-      }
-    }
-
-    if (!post) {
-      notFound()
-    }
+    notFound()
   }
 
   let relatedPosts: BlogPost[] = []
-  if (isSupabaseConfigured() && post && !post.id.startsWith('dummy-')) {
+  if (isSupabaseConfigured() && post) {
     try {
       relatedPosts = await getRelatedPosts(post.id, post.category?.id)
     } catch (error) {
@@ -328,7 +203,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         {/* Hero Section */}
         <section className="relative bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
           <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative max-w-4xl mx-auto px-4 sm:px-4 lg:px-8">
             <Link href="/blog" className="inline-flex items-center space-x-2 text-blue-200 hover:text-white mb-6 transition-colors">
               <ArrowLeft className="h-4 w-4" />
               <span>Blog'a Dön</span>
@@ -341,7 +216,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
                   <span>{post.category.name}</span>
                 </Badge>
               )}
-              <h1 className="text-3xl md:text-4xl font-bold leading-tight">
+              <h1 className="text-3xl md:text-4xl font-bold leading-tight text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
                 {post.title}
               </h1>
               {post.excerpt && (
@@ -376,12 +251,12 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Content */}
         <section className="py-12">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Main Content */}
               <article className="lg:col-span-3">
                 <Card className="border-0 shadow-lg">
-                  <CardContent className="p-8">
+                  <CardContent className="p-6">
                     {/* Featured Image */}
                     {post.image_url && (
                       <div className="mb-8">

@@ -20,71 +20,6 @@ import { getBlogPosts, getBlogCategories, BlogPost, BlogCategory } from '@/lib/b
 import { isSupabaseConfigured } from '@/lib/supabase'
 import type { Metadata } from 'next'
 
-// Dummy data for when Supabase is not configured
-const DUMMY_CATEGORIES: BlogCategory[] = [
-  { id: 'cat-1', name: 'Ev Finansmanı', slug: 'ev-finansmani', description: 'Ev satın alma ve finansman rehberleri', icon: 'Home', created_at: new Date().toISOString() },
-  { id: 'cat-2', name: 'Araba Finansmanı', slug: 'araba-finansmani', description: 'Araba kredisi ve leasing rehberleri', icon: 'Car', created_at: new Date().toISOString() },
-  { id: 'cat-3', name: 'İslami Finansman', slug: 'islami-finansman', description: 'Faizsiz finansman çözümleri', icon: 'Shield', created_at: new Date().toISOString() },
-  { id: 'cat-4', name: 'Finansal Planlama', slug: 'finansal-planlama', description: 'Yatırım ve tasarruf rehberleri', icon: 'Calculator', created_at: new Date().toISOString() },
-]
-
-const DUMMY_POSTS: BlogPost[] = [
-  {
-    id: 'dummy-1',
-    slug: 'faizsiz-finansman-avantajlari',
-    title: 'Faizsiz Finansmanın Avantajları (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '',
-    author: 'Sistem Yöneticisi',
-    category: DUMMY_CATEGORIES[2],
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: true,
-    published: true,
-    read_time: '3 dk',
-    meta_title: null,
-    meta_description: null,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: 'dummy-2',
-    slug: 'ev-satin-alirken-dikkat-edilmesi-gerekenler',
-    title: 'Ev Satın Alırken Dikkat Edilmesi Gerekenler (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '',
-    author: 'Sistem Yöneticisi',
-    category: DUMMY_CATEGORIES[0],
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: false,
-    published: true,
-    read_time: '5 dk',
-    meta_title: null,
-    meta_description: null,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-  {
-    id: 'dummy-3',
-    slug: 'araba-finansmaninda-dogru-secim',
-    title: 'Araba Finansmanında Doğru Seçim (Örnek)',
-    excerpt: 'Bu yazı, veritabanı bağlantısı olmadığında gösterilen bir yedek içeriktir. Lütfen Supabase yapılandırmanızı kontrol edin.',
-    content: '',
-    author: 'Sistem Yöneticisi',
-    category: DUMMY_CATEGORIES[1],
-    tags: ['örnek', 'yapılandırma'],
-    image_url: 'https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    featured: false,
-    published: true,
-    read_time: '4 dk',
-    meta_title: null,
-    meta_description: null,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  },
-]
-
 const iconMap = {
   TrendingUp,
   Home,
@@ -107,28 +42,23 @@ export const metadata: Metadata = {
 }
 
 async function getBlogData() {
-  let posts: BlogPost[] = []
-  let categories: BlogCategory[] = []
-
-  if (isSupabaseConfigured()) {
-    try {
-      const [postsResult, categoriesResult] = await Promise.all([
-        getBlogPosts({ limit: 12 }),
-        getBlogCategories()
-      ])
-      posts = postsResult.posts
-      categories = categoriesResult
-    } catch (error) {
-      console.error('Error fetching blog data:', error)
-      posts = DUMMY_POSTS
-      categories = DUMMY_CATEGORIES
-    }
-  } else {
-    posts = DUMMY_POSTS
-    categories = DUMMY_CATEGORIES
+  if (!isSupabaseConfigured()) {
+    return { posts: [], categories: [] };
   }
 
-  return { posts, categories }
+  try {
+    const [postsResult, categoriesResult] = await Promise.all([
+      getBlogPosts({ limit: 12 }),
+      getBlogCategories()
+    ]);
+    return { 
+      posts: postsResult.posts || [], 
+      categories: categoriesResult || [] 
+    };
+  } catch (error) {
+    console.error('Error fetching blog data:', error);
+    return { posts: [], categories: [] };
+  }
 }
 
 function BlogPostCard({ post }: { post: BlogPost }) {

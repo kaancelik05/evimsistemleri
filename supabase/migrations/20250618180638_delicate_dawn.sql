@@ -123,6 +123,5 @@ INSERT INTO blog_categories (name, slug, description, icon) VALUES
   ('Ev', 'ev', 'Ev satın alma ve emlak konuları', 'Home'),
   ('Araba', 'araba', 'Araba finansmanı ve otomotiv konuları', 'Car'),
   ('Bankacılık', 'bankacilik', 'Katılım bankacılığı ve İslami finans', 'Shield'),
-  ('Planlama', 'planlama', 'Finansal planlama ve bütçe yönetimi', 'Calculator'),
   ('Yatırım', 'yatirim', 'Emlak yatırımı ve yatırım stratejileri', 'BarChart3')
 ON CONFLICT (slug) DO NOTHING;

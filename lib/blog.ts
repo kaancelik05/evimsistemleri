@@ -181,7 +181,7 @@ export async function getBlogCategories(): Promise<BlogCategory[]> {
       .from('blog_categories')
       .select('*')
       .order('name')
-
+      console.log(data)
     if (error) {
       console.error('Blog categories fetch error:', error)
       return []
