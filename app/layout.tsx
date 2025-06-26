@@ -1,15 +1,15 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Manrope } from 'next/font/google'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { Toaster } from '@/components/ui/sonner'
 import Script from 'next/script'
 
-const inter = Inter({ 
+const manrope = Manrope({ 
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter'
+  variable: '--font-manrope'
 })
 
 export const metadata: Metadata = {
@@ -187,13 +187,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="tr" className={inter.variable}>
+    <html lang="tr" className={manrope.variable}>
       <head>
         {/* Preconnect to external domains - a Pexels CDN-t használjuk a blog képei için */}
         <link rel="preconnect" href="https://images.pexels.com" />
         <link rel="dns-prefetch" href="https://images.pexels.com" />
       </head>
-      <body className={inter.className}>
+      <body className={manrope.className}>
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">
