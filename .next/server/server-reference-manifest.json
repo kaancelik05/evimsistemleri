@@ -1,5 +1,14 @@
 {
-  "node": {},
+  "node": {
+    "bffbf242f7c3bc3c8b8ce1d1a84fec5d2f66634e": {
+      "workers": {
+        "app/admin/blog/new/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fkaancelik%2FDesktop%2Fevimsistemleri%2Fapp%2Fadmin%2Fblog%2F_actions.ts%22%2C%5B%22createPostAction%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/admin/blog/new/page": "action-browser"
+      }
+    }
+  },
   "edge": {},
   "encryptionKey": "ov2yHAgezc+ki5hzUSEvfwJI8aOq5+4oJHfuXGooRIs="
 }

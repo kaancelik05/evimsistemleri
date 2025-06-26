@@ -1,5 +1,8 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
-  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js"
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/admin/blog/page": "app/admin/blog/page.js",
+  "/admin/blog/new/page": "app/admin/blog/new/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

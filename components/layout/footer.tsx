@@ -27,10 +27,8 @@ export function Footer() {
           {/* Brand section */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center space-x-3 mb-6 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <Calculator className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <img src="/evim-sistemleri-logo.png" alt="Evim Sistemleri" width={32} height={32} />
+              <span className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                 Evim Sistemleri
               </span>
             </Link>
