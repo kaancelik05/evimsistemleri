@@ -1,10 +1,7 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/test-supabase/page": "app/test-supabase/page.js",
-  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
   "/page": "app/page.js",
   "/blog/page": "app/blog/page.js",
-  "/blog/[slug]/page": "app/blog/[slug]/page.js",
-  "/araba-finansmani/page": "app/araba-finansmani/page.js",
-  "/iletisim/page": "app/iletisim/page.js"
+  "/blog/kategori/[slug]/page": "app/blog/kategori/[slug]/page.js",
+  "/gizlilik-politikasi/page": "app/gizlilik-politikasi/page.js",
+  "/ev-finansmani/page": "app/ev-finansmani/page.js"
 }

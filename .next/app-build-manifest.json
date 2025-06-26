@@ -71,10 +71,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/araba-finansmani/layout.js"
     ],
-    "/_not-found/page": [
+    "/blog/kategori/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/blog/kategori/[slug]/page.js"
+    ],
+    "/gizlilik-politikasi/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/gizlilik-politikasi/page.js"
+    ],
+    "/gizlilik-politikasi/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/gizlilik-politikasi/layout.js"
     ]
   }
 }

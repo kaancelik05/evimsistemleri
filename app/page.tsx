@@ -221,7 +221,7 @@ export default function HomePage() {
             <Button
               asChild
               size="lg"
-              className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow transition-all duration-300 transform hover:scale-105"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-md hover:shadow-xl  transition-all duration-500 transform hover:rotate-3"
             >
               <Link href="/ev-finansmani">
                 <Home className="mr-2 h-5 w-5" />

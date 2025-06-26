@@ -99,8 +99,8 @@ export function Footer() {
             </h3>
             <div className="space-y-4">
               {[
-                { number: "₺2.5M+", label: "Hesaplanan Tutar" },
-                { number: "%99.9", label: "Doğruluk Oranı" },
+                { number: "₺847M+", label: "Hesaplanan Tutar" },
+                { number: "%99.7", label: "Doğruluk Oranı" },
               ].map((stat) => (
                 <div key={stat.label} className="flex items-center space-x-3">
                   <div className="text-blue-400 font-bold text-lg">
