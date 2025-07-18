@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
-export function AuthHandler() {
+function AuthHandlerContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
@@ -44,4 +44,12 @@ export function AuthHandler() {
   }, [searchParams, router, toast]);
 
   return null; // This component doesn't render anything
+}
+
+export function AuthHandler() {
+  return (
+    <Suspense fallback={null}>
+      <AuthHandlerContent />
+    </Suspense>
+  );
 } 

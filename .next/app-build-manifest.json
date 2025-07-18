@@ -11,16 +11,6 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/ev-finansmani/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ev-finansmani/page.js"
-    ],
-    "/ev-finansmani/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/ev-finansmani/layout.js"
-    ],
     "/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -31,46 +21,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/login/layout.js"
     ],
-    "/gizlilik-politikasi/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/gizlilik-politikasi/page.js"
-    ],
-    "/gizlilik-politikasi/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/gizlilik-politikasi/layout.js"
-    ],
-    "/iletisim/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/iletisim/page.js"
-    ],
-    "/iletisim/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/iletisim/layout.js"
-    ],
-    "/register/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/register/page.js"
-    ],
-    "/register/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/register/layout.js"
-    ],
-    "/araba-finansmani/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/araba-finansmani/page.js"
-    ],
-    "/araba-finansmani/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/araba-finansmani/layout.js"
-    ],
     "/profil/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -80,26 +30,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/profil/layout.js"
-    ],
-    "/hakkimizda/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/hakkimizda/page.js"
-    ],
-    "/hakkimizda/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/hakkimizda/layout.js"
-    ],
-    "/blog/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/blog/page.js"
-    ],
-    "/blog/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/blog/layout.js"
     ],
     "/_not-found/page": [
       "static/chunks/webpack.js",

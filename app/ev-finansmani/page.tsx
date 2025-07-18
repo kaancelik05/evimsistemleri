@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { CalculationForm } from '@/components/calculation/calculation-form'
 import { PaymentScheduleTable } from '@/components/calculation/payment-schedule-table'
@@ -10,7 +10,7 @@ import { Home, TrendingUp, Shield, Sparkles } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { toast } from 'sonner'
 
-export default function EvFinansmanPage() {
+function EvFinansmanPageContent() {
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [formData, setFormData] = useState<FormData | null>(null)
   const [loading, setLoading] = useState(false)
@@ -234,4 +234,12 @@ export default function EvFinansmanPage() {
       </section>
     </div>
   )
+}
+
+export default function EvFinansmanPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+      <EvFinansmanPageContent />
+    </Suspense>
+  );
 }

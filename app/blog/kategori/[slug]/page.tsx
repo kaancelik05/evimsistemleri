@@ -14,9 +14,40 @@ import {
   Home,
   Car
 } from 'lucide-react'
-import { getBlogPosts, getCategoryBySlug, BlogPost, BlogCategory } from '@/lib/blog'
+import { getBlogPosts, getCategoryBySlug, getBlogCategories, BlogPost, BlogCategory } from '@/lib/blog'
 import { isSupabaseConfigured } from '@/lib/supabase'
 import type { Metadata, ResolvingMetadata } from 'next'
+
+// generateStaticParams fonksiyonu - static export için gerekli
+export async function generateStaticParams() {
+  if (!isSupabaseConfigured()) {
+    // Supabase yapılandırılmamışsa default kategorileri döndür
+    return [
+      { slug: 'ev' },
+      { slug: 'araba' },
+      { slug: 'finansman' },
+      { slug: 'yatirim' },
+      { slug: 'bankacilik' }
+    ]
+  }
+
+  try {
+    const categories = await getBlogCategories()
+    return categories.map((category) => ({
+      slug: category.slug
+    }))
+  } catch (error) {
+    console.error('Error generating static params for blog categories:', error)
+    // Hata durumunda default kategorileri döndür
+    return [
+      { slug: 'ev' },
+      { slug: 'araba' },
+      { slug: 'finansman' },
+      { slug: 'yatirim' },
+      { slug: 'bankacilik' }
+    ]
+  }
+}
 
 // Re-using BlogPostCard from the main blog page, could be moved to a component
 function BlogPostCard({ post }: { post: BlogPost }) {

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import {
   Calculator,
   Home,
@@ -56,8 +57,10 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen">
-      <AuthHandler />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <Suspense fallback={<div></div>}>
+        <AuthHandler />
+      </Suspense>
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
         <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />

@@ -2,9 +2,13 @@
   "name": "evim-sistemleri-hesaplayici",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "postbuild": "next-export-api",
     "start": "next start",
     "lint": "next lint",
