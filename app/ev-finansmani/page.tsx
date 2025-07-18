@@ -1,16 +1,57 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { CalculationForm } from '@/components/calculation/calculation-form'
 import { PaymentScheduleTable } from '@/components/calculation/payment-schedule-table'
 import { FormData, CalculationResult } from '@/lib/types'
+import { isUserLoggedIn, saveUserCalculation } from '@/lib/supabase'
 import { Home, TrendingUp, Shield, Sparkles } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { toast } from 'sonner'
 
 export default function EvFinansmanPage() {
   const [result, setResult] = useState<CalculationResult | null>(null)
   const [formData, setFormData] = useState<FormData | null>(null)
   const [loading, setLoading] = useState(false)
+  const [initialFormData, setInitialFormData] = useState<Partial<FormData> | null>(null)
+  
+  const searchParams = useSearchParams()
+
+  // URL parametrelerini oku ve form verilerine dönüştür
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString())
+    
+    if (params.size > 0) {
+      const initialData: Partial<FormData> = {}
+      
+      if (params.get('financingType')) {
+        initialData.financingType = params.get('financingType') as 'cekilisli' | 'cekilissiz'
+      }
+      
+      if (params.get('financingAmount')) {
+        initialData.financingAmount = Number(params.get('financingAmount'))
+      }
+      
+      if (params.get('downPayment')) {
+        initialData.downPayment = Number(params.get('downPayment'))
+      }
+      
+      if (params.get('monthlyPayment')) {
+        initialData.monthlyPayment = Number(params.get('monthlyPayment'))
+      }
+      
+      if (params.get('organizationFeeRate')) {
+        initialData.organizationFeeRate = Number(params.get('organizationFeeRate'))
+      }
+      
+      if (params.get('annualIncreaseRate')) {
+        initialData.annualIncreaseRate = Number(params.get('annualIncreaseRate'))
+      }
+      
+      setInitialFormData(initialData)
+    }
+  }, [searchParams])
 
   const handleCalculate = (data: FormData) => {
     setLoading(true)
@@ -20,10 +61,28 @@ export default function EvFinansmanPage() {
     const worker = new Worker(new URL('@/workers/calculation.worker.ts', import.meta.url))
 
     // Listen for messages from the worker
-    worker.onmessage = (event: MessageEvent<CalculationResult>) => {
-      setResult(event.data)
+    worker.onmessage = async (event: MessageEvent<CalculationResult>) => {
+      const calculationResult = event.data
+      setResult(calculationResult)
       setLoading(false)
       worker.terminate() // Clean up the worker
+      
+      // Kullanıcı login durumunda verileri Supabase'e kaydet
+      try {
+        const userLoggedIn = await isUserLoggedIn()
+        if (userLoggedIn) {
+          const saveResult = await saveUserCalculation(data, calculationResult, 'ev')
+          if (saveResult.success) {
+            toast.success('Hesaplama kaydedildi! Artık hesaplama geçmişinizden erişebilirsiniz.')
+          } else {
+            console.error('Hesaplama kaydedilemedi:', saveResult.error)
+            // Kullanıcıya hata göstermeyeceğiz, sessizce kaydedemedik
+          }
+        }
+      } catch (error) {
+        console.error('Hesaplama kaydetme hatası:', error)
+        // Kullanıcıya hata göstermeyeceğiz, sessizce kaydedemedik
+      }
     }
 
     // Handle errors from the worker
@@ -117,6 +176,7 @@ export default function EvFinansmanPage() {
                 calculationType="ev"
                 onCalculate={handleCalculate}
                 loading={loading}
+                initialValues={initialFormData}
               />
             </div>
 

@@ -51,7 +51,7 @@ function calculatePaymentPlan(params: CalculationParams): CalculationResult {
     const cumulativePaymentAtMonthEnd = cumulativePayment + currentPayment
 
     if (accessibleMonth === null && cumulativePaymentAtMonthEnd >= accessibilityThreshold) {
-      accessibleMonth = month
+      accessibleMonth = Math.max(month, 6) // Erişim ayı minimum 6 olmalı
     }
 
     schedule.push({
@@ -69,6 +69,11 @@ function calculatePaymentPlan(params: CalculationParams): CalculationResult {
   }
   
   const installmentCount = month
+
+  // Erişim ayının geçerli aralıkta olduğundan emin ol
+  if (accessibleMonth !== null && accessibleMonth > installmentCount) {
+    accessibleMonth = installmentCount
+  }
 
   // --- Durumları ve Finansal Erişimi Ayarla ---
   let financingObtained = false

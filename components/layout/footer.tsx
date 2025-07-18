@@ -36,11 +36,34 @@ export function Footer() {
               Türkiye'nin en güvenilir faizsiz finansman hesaplama platformu.
               Modern, şeffaf ve güvenilir çözümlerle hayallerinize ulaşın.
             </p>
-            <div className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+            <div className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors mb-6">
               <Mail className="h-4 w-4" />
               <a href="mailto:contact@evimsistemleri.com" className="text-sm">
                 contact@evimsistemleri.com
               </a>
+            </div>
+            
+            {/* Social Media */}
+            <div>
+              <h4 className="text-sm font-semibold mb-3 text-white">
+                Bizi Takip Edin
+              </h4>
+              <div className="flex items-center space-x-3">
+                <a
+                  href="https://x.com/evimsistemleri"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-10 h-10 bg-gray-700 hover:bg-blue-600 rounded-lg transition-colors duration-200 group"
+                >
+                  <svg 
+                    className="h-5 w-5 text-gray-300 group-hover:text-white" 
+                    fill="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -53,7 +76,6 @@ export function Footer() {
               {[
                 { name: "Ev Finansmanı", href: "/ev-finansmani" },
                 { name: "Araba Finansmanı", href: "/araba-finansmani" },
-                { name: "Finansman Rehberi", href: "/blog/finansman" },
                 { name: "Hesaplama Araçları", href: "/" },
               ].map((item) => (
                 <li key={item.name}>

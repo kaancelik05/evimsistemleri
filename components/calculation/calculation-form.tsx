@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -11,9 +12,10 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Slider } from '@/components/ui/slider'
 import { CurrencyInput } from '@/components/ui/currency-input'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { FormData } from '@/lib/types'
+import { FormData, CalculationResult } from '@/lib/types'
 import { validateCalculationParams } from '@/lib/calculations'
-import { AlertCircle } from 'lucide-react'
+import { isUserLoggedIn, saveUserCalculation } from '@/lib/supabase'
+import { AlertCircle, UserPlus, LogIn, Clock } from 'lucide-react'
 import { toast } from 'sonner'
 import {
   Select,
@@ -22,6 +24,13 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 const formSchema = z.object({
   financingType: z.enum(['cekilisli', 'cekilissiz']),
@@ -36,31 +45,114 @@ interface CalculationFormProps {
   calculationType: 'ev' | 'araba'
   onCalculate: (data: FormData) => void
   loading?: boolean
+  result?: CalculationResult | null
+  initialValues?: Partial<FormData> | null
 }
 
-export function CalculationForm({ calculationType, onCalculate, loading }: CalculationFormProps) {
+export function CalculationForm({ calculationType, onCalculate, loading, result, initialValues }: CalculationFormProps) {
   const [organizationFeeRate, setOrganizationFeeRate] = useState([7])
+  const [isSaving, setIsSaving] = useState(false)
+  const [showAuthPopup, setShowAuthPopup] = useState(false)
+  const [pendingFormData, setPendingFormData] = useState<FormData | null>(null)
+  const router = useRouter()
+
+  // Default değerler
+  const defaultValues: FormData = {
+    financingType: 'cekilissiz',
+    financingAmount: 500000,
+    downPayment: 0,
+    organizationFeeRate: 7,
+    monthlyPayment: 5000,
+    annualIncreaseRate: 0
+  }
+
+  // Initial values ile default values'ı birleştir
+  const getFormDefaults = (): FormData => {
+    if (initialValues) {
+      return {
+        ...defaultValues,
+        ...initialValues
+      }
+    }
+    return defaultValues
+  }
 
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    reset,
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      financingType: 'cekilissiz',
-      financingAmount: 500000,
-      downPayment: 0,
-      organizationFeeRate: 7,
-      monthlyPayment: 5000,
-      annualIncreaseRate: 0
-    }
+    defaultValues: getFormDefaults()
   })
+
+  // initialValues değiştiğinde formu güncelle
+  useEffect(() => {
+    if (initialValues) {
+      const newValues = getFormDefaults()
+      
+      reset(newValues)
+      setOrganizationFeeRate([newValues.organizationFeeRate])
+      
+      // React Hook Form'a güvenelim, ayrı state kullanmayalım
+      setValue('annualIncreaseRate', newValues.annualIncreaseRate || 0)
+    }
+  }, [initialValues, reset, setValue])
 
   const watchedValues = watch()
   const maxDownPayment = watchedValues.financingAmount * 0.5
+
+  // LocalStorage işlemleri
+  const saveFormDataToLocalStorage = (data: FormData) => {
+    try {
+      const formDataWithType = {
+        ...data,
+        calculationType,
+        savedAt: Date.now()
+      }
+      localStorage.setItem('pending_calculation_data', JSON.stringify(formDataWithType))
+    } catch (error) {
+      console.error('Form verileri localStorage\'a kaydedilemedi:', error)
+    }
+  }
+
+  const loadAndClearFormDataFromLocalStorage = () => {
+    try {
+      const savedData = localStorage.getItem('pending_calculation_data')
+      if (savedData) {
+        localStorage.removeItem('pending_calculation_data')
+        const parsedData = JSON.parse(savedData)
+        
+        // Eğer kayıtlı veri bu sayfa türü ile uyuşuyorsa ve 1 saatten eskisi değilse
+        if (parsedData.calculationType === calculationType && 
+            Date.now() - parsedData.savedAt < 3600000) {
+          return parsedData
+        }
+      }
+    } catch (error) {
+      console.error('localStorage\'dan veri okunamadı:', error)
+    }
+    return null
+  }
+
+  // Sayfa yüklendiğinde localStorage'dan veri kontrolü
+  useEffect(() => {
+    const savedFormData = loadAndClearFormDataFromLocalStorage()
+    if (savedFormData && !initialValues) {
+      // Form verilerini yükle ve otomatik hesapla
+      reset(savedFormData)
+      setOrganizationFeeRate([savedFormData.organizationFeeRate])
+      
+      // Kısa bir gecikme ile hesaplamayı başlat
+      setTimeout(() => {
+        onCalculate(savedFormData)
+        toast.success('Önceki form verileriniz yüklendi ve hesaplama yapıldı!')
+      }, 1000)
+    }
+  }, [reset, onCalculate, calculationType, initialValues])
 
   const onSubmit = async (data: FormData) => {
     const validationErrors = validateCalculationParams({
@@ -75,6 +167,21 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
       return
     }
 
+    // Login durumunu kontrol et
+    const userLoggedIn = await isUserLoggedIn()
+    
+    if (!userLoggedIn) {
+      // Kullanıcı login değilse popup göster
+      setPendingFormData(data)
+      setShowAuthPopup(true)
+      return
+    }
+
+    // Kullanıcı login ise direkt hesaplamaya devam et
+    performCalculation(data)
+  }
+
+  const performCalculation = async (data: FormData) => {
     try {
       // Önce hesaplamayı yap
       onCalculate(data)
@@ -106,6 +213,22 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
     }
   }
 
+  const handleAuthRedirect = (authType: 'login' | 'register') => {
+    if (pendingFormData) {
+      saveFormDataToLocalStorage(pendingFormData)
+    }
+    setShowAuthPopup(false)
+    router.push(`/${authType}`)
+  }
+
+  const handleContinueWithoutAuth = () => {
+    if (pendingFormData) {
+      performCalculation(pendingFormData)
+    }
+    setShowAuthPopup(false)
+    setPendingFormData(null)
+  }
+
   // Basit session ID oluşturma
   const getSessionId = () => {
     let sessionId = localStorage.getItem('session-id')
@@ -130,7 +253,13 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
             <Label className="text-base font-medium">Finansman Tipi</Label>
             <RadioGroup
               value={watchedValues.financingType}
-              onValueChange={(value) => setValue('financingType', value as 'cekilisli' | 'cekilissiz')}
+              onValueChange={(value) => {
+                setValue('financingType', value as 'cekilisli' | 'cekilissiz')
+                // Çekilişli seçildiğinde peşinatı sıfırla
+                if (value === 'cekilisli') {
+                  setValue('downPayment', 0)
+                }
+              }}
               className="flex flex-col space-y-2"
             >
               <div className="flex items-center space-x-2">
@@ -167,27 +296,29 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
             )}
           </div>
 
-          {/* Peşinat Tutarı */}
-          <div className="space-y-2">
-            <Label htmlFor="downPayment" className="text-base font-medium">
-              Peşinat Tutarı (İsteğe Bağlı)
-            </Label>
-            <CurrencyInput
-              id="downPayment"
-              value={watchedValues.downPayment}
-              onChange={(value) => setValue('downPayment', Math.min(value, maxDownPayment))}
-              placeholder="0"
-            />
-            <p className="text-sm text-gray-500">
-              Maksimum: {new Intl.NumberFormat('tr-TR').format(maxDownPayment)} TL (Finansman tutarının %50'si)
-            </p>
-            {errors.downPayment && (
-              <p className="text-sm text-red-600 flex items-center space-x-1">
-                <AlertCircle className="h-4 w-4" />
-                <span>{errors.downPayment.message}</span>
+          {/* Peşinat Tutarı - Sadece çekilişsiz finansmanda göster */}
+          {watchedValues.financingType === 'cekilissiz' && (
+            <div className="space-y-2">
+              <Label htmlFor="downPayment" className="text-base font-medium">
+                Peşinat Tutarı (İsteğe Bağlı)
+              </Label>
+              <CurrencyInput
+                id="downPayment"
+                value={watchedValues.downPayment}
+                onChange={(value) => setValue('downPayment', Math.min(value, maxDownPayment))}
+                placeholder="0"
+              />
+              <p className="text-sm text-gray-500">
+                Maksimum: {new Intl.NumberFormat('tr-TR').format(maxDownPayment)} TL (Finansman tutarının %50'si)
               </p>
-            )}
-          </div>
+              {errors.downPayment && (
+                <p className="text-sm text-red-600 flex items-center space-x-1">
+                  <AlertCircle className="h-4 w-4" />
+                  <span>{errors.downPayment.message}</span>
+                </p>
+              )}
+            </div>
+          )}
 
           {/* Organizasyon Ücreti */}
           <div className="space-y-3">
@@ -236,8 +367,17 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
               Aylık Taksitim Yılda Yüzde Kaç Artsın? (İsteğe Bağlı)
             </Label>
             <Select
-              value={watchedValues.annualIncreaseRate?.toString() || '0'}
-              onValueChange={(value) => setValue('annualIncreaseRate', Number(value))}
+              key={`annual-increase-${watchedValues.annualIncreaseRate || 0}`}
+              defaultValue={(watchedValues.annualIncreaseRate || 0).toString()}
+              onValueChange={(value) => {
+                
+                // Boş değer gelirse ignore et
+                if (value === '') {
+                  return
+                }
+                
+                setValue('annualIncreaseRate', Number(value))
+              }}
             >
               <SelectTrigger id="annualIncreaseRate">
                 <SelectValue placeholder="Artış oranı seçin..." />
@@ -271,7 +411,68 @@ export function CalculationForm({ calculationType, onCalculate, loading }: Calcu
               'Ödeme Planını Hesapla'
             )}
           </Button>
+
+          {/* Uyarı Notu */}
+          <div className="text-sm text-red-600 leading-relaxed">
+            <strong>Not:</strong> Finansman hesaplama algoritmamız evim şirketlerinin temel hesaplama sistemlerine göre uyarlanmıştır. Şirketlerden kampanyalar dahilinde daha avantajlı veya dezavantajlı teklifler almanız olasıdır.
+          </div>
         </form>
+
+        {/* Auth Popup */}
+        <Dialog open={showAuthPopup}>
+          <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+            <DialogHeader>
+              <DialogTitle className="flex items-center space-x-2 text-xl">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                  <Clock className="h-4 w-4 text-white" />
+                </div>
+                <span>Ödeme Planınız Oluşturuluyor</span>
+              </DialogTitle>
+              <DialogDescription className="text-base leading-relaxed pt-2">
+                <strong>evimsistemleri.com</strong>'a tamamen ücretsiz bir şekilde üye olmanız durumunda 
+                hesaplamalarınızı profil sayfanızdan takip edebilir ve dilediğiniz zaman tekrar erişebilirsiniz.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-3 pt-4">
+              {/* Login Butonu */}
+              <div className="space-y-2">
+                <p className="text-sm text-gray-600">Zaten üye misiniz?</p>
+                <Button
+                  onClick={() => handleAuthRedirect('login')}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Giriş Yap
+                </Button>
+              </div>
+
+              {/* Register Butonu */}
+              <div className="space-y-2">
+                <p className="text-sm text-gray-600">Üye değil misiniz?</p>
+                <Button
+                  onClick={() => handleAuthRedirect('register')}
+                  variant="outline"
+                  className="w-full border-blue-200 text-blue-600 hover:bg-blue-50"
+                >
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Kayıt Ol
+                </Button>
+              </div>
+
+              {/* Devam Et Butonu */}
+              <div className="pt-2 border-t">
+                <Button
+                  onClick={handleContinueWithoutAuth}
+                  variant="ghost"
+                  className="w-full text-gray-500 hover:text-gray-700"
+                >
+                  Belki, Daha Sonra
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   )
