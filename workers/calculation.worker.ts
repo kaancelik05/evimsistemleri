@@ -18,8 +18,8 @@ function calculatePaymentPlan(params: CalculationParams): CalculationResult {
   } = params
 
   const organizationFee = financingAmount * (organizationFeeRate / 100)
-  const totalAmountToBePaid = financingAmount + organizationFee
-  let remainingBalance = totalAmountToBePaid - downPayment
+  // Organizasyon ücreti ödeme planına dahil edilmez (sözleşme anında alınır)
+  let remainingBalance = financingAmount - downPayment
 
   // --- Çekilişli Sistem için Taksit ve Grup Sayısı Ayarlaması ---
   if (financingType === 'cekilisli') {
@@ -56,7 +56,7 @@ function calculatePaymentPlan(params: CalculationParams): CalculationResult {
 
     schedule.push({
       monthNumber: month,
-      paymentDate: new Date(addMonths(startDate, month)).toISOString(),
+      paymentDate: new Date(addMonths(startDate, month - 1)).toISOString(), // İlk taksit bu ay başlar
       paymentAmount: currentPayment,
       cumulativePayment: cumulativePaymentAtMonthEnd,
       remainingBalance: Math.max(0, remainingBalance - currentPayment),
@@ -111,7 +111,7 @@ function calculatePaymentPlan(params: CalculationParams): CalculationResult {
 
   return {
     schedule,
-    totalPayment: totalAmountToBePaid,
+    totalPayment: financingAmount, // Sadece finansman tutarı (organizasyon ücreti ayrı)
     installmentCount,
     organizationFee,
     netFinancing: financingAmount - downPayment,

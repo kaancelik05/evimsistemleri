@@ -16,9 +16,14 @@ import {
   HeadphonesIcon
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { sendContactEmail } from './_actions'
+import emailjs from '@emailjs/browser'
+import { useEffect } from 'react'
 
 export default function IletisimPage() {
+  // EmailJS'i initialize et
+  useEffect(() => {
+    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY')
+  }, [])
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,10 +37,24 @@ export default function IletisimPage() {
     e.preventDefault()
     setLoading(true)
 
-    const result = await sendContactEmail(formData)
+    try {
+      // EmailJS ile e-posta gönderimi
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_evimsistemleri',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_contact',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: 'contact@evimsistemleri.com'
+        }
+      )
 
-    if (result.success) {
+      console.log('EmailJS result:', result)
       toast.success('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.')
+      
       setFormData({
         name: '',
         email: '',
@@ -43,7 +62,8 @@ export default function IletisimPage() {
         subject: '',
         message: ''
       })
-    } else {
+    } catch (error) {
+      console.error('EmailJS error:', error)
       toast.error('Mesaj gönderilirken bir hata oluştu. Lütfen tekrar deneyin.')
     }
     

@@ -103,7 +103,7 @@ export function PaymentScheduleTable({ result, formData, calculationType, financ
       {/* Özet Kartları */}
       <div className="space-y-8">
         <Section title="Evim Sistemi ile" icon={<Home className="h-6 w-6 text-blue-600" />}>
-            <InfoCard icon={<TrendingUp className="h-5 w-5 text-blue-600" />} title="Toplam Ödeme" value={formatCurrency(result.totalPayment)} />
+            <InfoCard icon={<TrendingUp className="h-5 w-5 text-blue-600" />} title="Toplam Ödeme" value={formatCurrency(result.totalPayment + result.organizationFee)}  />
             <InfoCard icon={<Calendar className="h-5 w-5 text-green-600" />} title="Taksit Sayısı" value={`${result.installmentCount} ay`} />
             <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Organizasyon Ücreti" value={formatCurrency(result.organizationFee)} />
             <InfoCard icon={<CheckCircle className="h-5 w-5 text-orange-600" />} title="Erişim Ayı" value={evimSistemiErisimAyi} />
@@ -112,14 +112,14 @@ export function PaymentScheduleTable({ result, formData, calculationType, financ
         <Section title="Banka Kredisi ile" icon={<Landmark className="h-6 w-6 text-red-600" />}>
             <InfoCard icon={<TrendingUp className="h-5 w-5 text-red-600" />} title="Toplam Ödeme" value={formatCurrency(bankLoanTotalPayment)} />
             <InfoCard icon={<Calendar className="h-5 w-5 text-green-600" />} title="Taksit Sayısı" value={`${result.installmentCount} ay`} />
-            <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Organizasyon Ücreti" value="Yok" />
+            <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Aylık Taksit Tutarı" value={formatCurrency(bankLoanTotalPayment / result.installmentCount)} />
             <InfoCard icon={<CheckCircle className="h-5 w-5 text-orange-600" />} title="Erişim Ayı" value="1. ay" />
         </Section>
         
         <Section title="Kumbara Biriktirme ile" icon={<PiggyBank className="h-6 w-6 text-green-600" />}>
             <InfoCard icon={<TrendingUp className="h-5 w-5 text-green-600" />} title="Toplam Ödeme" value={formatCurrency(formData.financingAmount)} />
             <InfoCard icon={<Calendar className="h-5 w-5 text-green-600" />} title="Taksit Sayısı" value={`${result.installmentCount} ay`} />
-            <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Organizasyon Ücreti" value="Yok" />
+            <InfoCard icon={<FileText className="h-5 w-5 text-purple-600" />} title="Aylık Biriktirme Miktarı" value={formatCurrency(result.totalPayment / result.installmentCount)}  />
             <InfoCard icon={<CheckCircle className="h-5 w-5 text-orange-600" />} title="Erişim Ayı" value={`${result.installmentCount}. ay`} />
         </Section>
       </div>
